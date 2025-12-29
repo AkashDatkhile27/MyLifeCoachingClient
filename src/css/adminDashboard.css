@@ -197,7 +197,7 @@
   .icon-btn-danger:hover { background: rgba(239,68,68,0.1); }
 
   /* Modals */
-  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); display: flex; justify-content: center; align-items: center; z-index: 100; padding: 20px; color: #fff; }
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); display: flex; justify-content: center; align-items: center; z-index: 100; padding: 20px; color: #fff; scrollbar-width: thin; scrollbar-color: #555 transparent; }
   .modal { 
     background: #121212; 
     border: 1px solid #333; 
@@ -358,4 +358,5 @@
     .fab-container { bottom: 20px; right: 20px; }
     .modal { bottom: 0; max-height: 90vh; border-radius: 16px 16px 0 0; position: fixed; transform: none; animation: slideUp 0.3s ease-out; background-color: #000; margin-top: 0; }
     .modal-overlay { align-items: flex-end; padding: 0; }
+
   }
