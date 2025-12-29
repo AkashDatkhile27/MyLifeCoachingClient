@@ -5,7 +5,6 @@ import '../../css/dashboard.css'
 import NotificationDropdown from '../uiComponent/NotificationDropdown';
 import LogoImg from '../../assests/Logo.jpg';
 
-import AdminNotificationDropdown from '../adminComponent/subComponent/AdminNotificationDropdown';
 import * as utils from '../../utils/getUserSessionStatusAndInitials';
 
 const UserNavbar =({ user, notifications = [], onProfileClick, onLogout, onDashboardClick }) => {

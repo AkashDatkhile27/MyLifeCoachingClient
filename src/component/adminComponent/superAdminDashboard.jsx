@@ -8,7 +8,7 @@ import { Loader2, Shield, Bell } from 'lucide-react';
 
 import { AdminToast } from '../uiComponent/Toast';
 import { ConfirmationModal } from './subComponent/ConfirmationModal';
-
+import Profile from '../CommonComponent/Profile';
 import AdminNavbar from './subComponent/AdminNavbar';
 import UserManagementTab from './subComponent/UserManagementTab';
 import SessionManagementTab from './subComponent/SessionManagementTab';
@@ -24,7 +24,8 @@ const SuperAdminDashboard = () => {
  const [currentUser, setCurrentUser] = useState(null);
   const [activeTab, setActiveTab] = useState('users');
   const [loading, setLoading] = useState(true);
-  
+  // Tabs State
+  const [activeTabProfile, setActiveTabProfile] = useState('dashboard'); // 'dashboard' or 'profile'
   // Data
   const [users, setUsers] = useState([]);
   const [sessions, setSessions] = useState([]);
@@ -101,6 +102,7 @@ const SuperAdminDashboard = () => {
     return () => clearInterval(interval);
   }, []);
 
+  // --- Data Loaders ---
   const loadData = async (t, silent = false) => {
     const token = t || sessionStorage.getItem('token') || 'demo-token';
     try {
@@ -116,6 +118,7 @@ const SuperAdminDashboard = () => {
   };
 
   // --- Handlers ---
+  // Create Admin Handler
   const handleCreateAdmin = async (data) => {
     try {
         await adminDashboardApiService.createAdmin(data, sessionStorage.getItem('token'));
@@ -126,7 +129,7 @@ const SuperAdminDashboard = () => {
         showToast('Failed to create admin', 'error');
     }
   };
-
+// Save Session Handler
   const handleSaveSession = async (data) => {
     const token = sessionStorage.getItem('token');
     const payload = { ...data, contextPoints: typeof data.contextPoints === 'string' ? data.contextPoints.split('\n').filter(x => x.trim()) : data.contextPoints };
@@ -148,6 +151,7 @@ const SuperAdminDashboard = () => {
     }
   };
 
+  // Delete Session Handler
   const handleDeleteSession = (id) => {
     requestConfirmation(
       'Delete Session', 
@@ -164,6 +168,7 @@ const SuperAdminDashboard = () => {
     );
   };
 
+  // Delete User Handler
   const handleDeleteUser = (id) => {
     requestConfirmation(
       'Delete User', 
@@ -180,6 +185,7 @@ const SuperAdminDashboard = () => {
     );
   };
 
+  // Grant/Revoke Access Handler
   const handleGrantAccess = async (sessionId, isGranted) => {
     try {
         const token = sessionStorage.getItem('token');
@@ -205,6 +211,33 @@ const SuperAdminDashboard = () => {
     }
   };
 
+    // Profile Update Handler
+ const handleUpdateProfile = async (data) => {
+    try {
+        await adminDashboardApiService.updateProfile(data, sessionStorage.getItem('token'));
+        showToast('Profile updated successfully!');
+        setCurrentUser(prev => ({ ...prev, ...data }));
+    } catch (e) {
+        showToast('Failed to update profile.');
+    }
+  };
+  // Password Reset Handler
+  const handlePasswordReset = async (data) => {
+  
+    if (data.new !== data.confirm) {
+        showToast('Passwords do not match');
+      
+    }
+    try {
+      const token = sessionStorage.getItem('token');
+      // console.log('Resetting password with data:', data, 'and token:', token);
+     await adminDashboardApiService.resetPassword(data, token);
+        showToast('Password changed successfully!');
+    } catch (e) {
+        showToast(e.message || 'Failed to change password.');
+    }
+  };
+   
   if (loading) return <div className="loader-screen"><Loader2 className="animate-spin" size={40}/></div>;
 
   return (
@@ -215,10 +248,14 @@ const SuperAdminDashboard = () => {
             user={currentUser} 
             adminData={adminData}
             notifications={notifications} 
+            onProfileClick={() => setActiveTabProfile('profile')}
+            onDashboardClick={() => setActiveTabProfile('dashboard')}
             onLogout={() => { sessionStorage.clear(); window.location.href='/login';}} 
         />
-  
-        <div className="sa-content">
+         
+        {activeTabProfile === 'dashboard'? (
+          <>
+          <div className="sa-content">
           <div className="tabs-header">
             <button className={`tab-btn ${activeTab === 'users' ? 'active' : ''}`} onClick={() => setActiveTab('users')}>User Management</button>
             <button className={`tab-btn ${activeTab === 'sessions' ? 'active' : ''}`} onClick={() => setActiveTab('sessions')}>Curriculum</button>
@@ -251,7 +288,18 @@ const SuperAdminDashboard = () => {
             </div>
           )}
         </div>
-
+        </>
+        ): (
+          <div style={{ position: 'relative', padding: '16px', overflowY: 'auto', top:'95px'}}>
+              <Profile 
+                  user={currentUser} 
+                  onUpdate={handleUpdateProfile} 
+                  onPasswordChange={handlePasswordReset} 
+              />
+                 </div>
+            )}
+        
+     
         {/* Modals */}
         <CreateAdminModal isOpen={modals.admin} onClose={() => setModals({...modals, admin: false})} onSave={handleCreateAdmin} />
         <SessionModal isOpen={modals.session} onClose={() => { setModals({...modals, session: false}); setSelectedItem(null); }} session={selectedItem} onSave={handleSaveSession} />

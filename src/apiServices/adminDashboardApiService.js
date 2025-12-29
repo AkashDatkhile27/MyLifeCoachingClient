@@ -38,7 +38,9 @@ const adminDashboardApiService = {
   createSession: (data, token) => adminDashboardApiService.request('/admin/post-new-sessions', 'POST', data, token),
   updateSession: (id, data, token) => adminDashboardApiService.request(`/admin/update-sessions/${id}`, 'PUT', data, token),
   deleteSession: (id, token) => adminDashboardApiService.request(`/admin/delete-sessions/${id}`, 'DELETE', null, token),
-
+  // Profile & Password
+  updateProfile: (data, token) => adminDashboardApiService.request('/auth/update-profile', 'PUT', data, token),
+  resetPassword: (data, token) => adminDashboardApiService.request('/auth/reset-password', 'PUT', data, token),
    
   fetchNotifications: (token) => adminDashboardApiService.request('/auth/notifications', 'GET', null, token),
 };

@@ -3,7 +3,7 @@ import { useState, useRef,useEffect} from 'react';
 
 import { Mail, EyeOff, Eye, Phone, Camera, Key } from 'lucide-react';
 import {getInitials} from '../../utils/getUserSessionStatusAndInitials';
-
+import '../../css/adminDashboard.css';
 const Profile =({ user, onUpdate, onPasswordChange }) => {
    const [formData, setFormData] = useState({
     name: user?.Name || '',
@@ -75,7 +75,7 @@ const Profile =({ user, onUpdate, onPasswordChange }) => {
   return (
     <div className="sa-grid" style={{gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))'}}>
       {/* Profile Details Card */}
-      <div className="sa-card">
+      <div className="sa-card-profile">
         <div className="card-header-row">
            <div className="user-info">
               {/* Avatar with Camera Icon Overlay */}
@@ -124,7 +124,7 @@ const Profile =({ user, onUpdate, onPasswordChange }) => {
       </div>
 
       {/* Change Password Card */}
-      <div className="sa-card">
+      <div className="sa-card-profile">
         <div className="card-header-row">
             <h3 style={{fontSize: '1.1rem', color: '#fff', display:'flex', alignItems:'center', gap: 10}}>
                <div style={{background: 'rgba(255,255,255,0.1)', padding: 8, borderRadius: 8}}>

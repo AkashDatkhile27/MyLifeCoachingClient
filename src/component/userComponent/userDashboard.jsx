@@ -149,6 +149,7 @@ const UserDashboard = () => {
     }
   };
   
+  // Profile Update Handler
  const handleUpdateProfile = async (data) => {
     try {
         await userApiService.updateProfile(data, sessionStorage.getItem('token'));
@@ -158,6 +159,7 @@ const UserDashboard = () => {
         showToast('Failed to update profile.');
     }
   };
+  // Password Reset Handler
   const handlePasswordReset = async (data) => {
   
     if (data.new !== data.confirm) {
@@ -173,6 +175,8 @@ const UserDashboard = () => {
         showToast(e.message || 'Failed to change password.');
     }
   };
+
+  //  Mark Session as Complete
   const markSessionComplete = async (sessionId) => {
     setSessions(prev => prev.map(s => s._id === sessionId ? { ...s, isCompleted: true } : s));
     try {
@@ -185,6 +189,7 @@ const UserDashboard = () => {
     }
   };
 
+    // Start Session Handler
   const handleStartSession = (sessionId) => {
     const session = sessions.find(s => s._id === sessionId);
     if (!session) return;

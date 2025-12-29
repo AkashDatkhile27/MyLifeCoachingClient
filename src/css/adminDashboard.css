@@ -112,6 +112,7 @@
   .sa-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
   .sa-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 16px; transition: transform 0.2s; animation: fadeIn 0.3s ease-out backwards; }
   .sa-card:hover { border-color: #555; transform: translateY(-2px); }
+  .sa-card-profile{background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 16px; transition: transform 0.2s; animation: fadeIn 0.3s ease-out backwards;}
 
   .card-header-row { display: flex; justify-content: space-between; align-items: flex-start; flex-direction: column; }
   .user-info { display: flex; gap: 12px; }
@@ -275,6 +276,10 @@
   @media (max-width: 768px) {
     .desktop-only { display: none; }
     .mobile-menu-btn { display: flex; }
+    .sa-card-profile{ 
+      width: 90vw;
+      display: grid;
+      grid-template-columns: 1fr; }
     
     .sa-table thead { display: none; }
     .sa-table, .sa-table tbody, .sa-table tr, .sa-table td { display: block; width: 100%; }

@@ -3,11 +3,12 @@ import React, { useState, useEffect,useRef } from 'react';
 import { Hexagon, ChevronDown, Bell, User, LogOut } from 'lucide-react';
 import '../../../css/dashboard.css'
 import LogoImg from '../../../assests/Logo.jpg';
+import { Home } from 'lucide-react';
 
 import AdminNotificationDropdown from './AdminNotificationDropdown';
 import * as utils from '../../../utils/getUserSessionStatusAndInitials';
 
-const AdminNavbar = ({ user, notifications = [], adminData, onLogout }) => {
+const AdminNavbar = ({ user, notifications = [], adminData, onLogout, onProfileClick, onDashboardClick }) => {
   const [isNotifOpen, setIsNotifOpen] = useState(false);
   const notifRef = useRef(null);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
@@ -69,7 +70,8 @@ const AdminNavbar = ({ user, notifications = [], adminData, onLogout }) => {
                    <div style={{ fontSize: '0.75rem', color: '#737373', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Signed in as</div>
                    <div style={{ fontWeight: 600, fontSize: '0.85rem', overflow: 'hidden', textOverflow: 'ellipsis', color: '#fff' }}>{safeUser.email}</div>
                 </div>
-                <button className="dropdown-item"><User size={16} /> Profile</button>
+                 <button onClick={() => { setIsProfileDropdownOpen(false); onProfileClick(); }} className="dropdown-item"><User size={16} /> Profile</button>
+                <button onClick={() => { setIsProfileDropdownOpen(false); onDashboardClick(); }} className='dropdown-item'><Home size={16} />Dashboard</button>
                 <button onClick={onLogout} className="dropdown-item danger"><LogOut size={16} /> Logout</button>
               </div>
             )}
@@ -109,7 +111,8 @@ const AdminNavbar = ({ user, notifications = [], adminData, onLogout }) => {
                    <div style={{ fontWeight: 600, fontSize: '0.85rem', overflow: 'hidden', textOverflow: 'ellipsis', color: '#fff' }}>{safeUser.email}</div>
                 </div>
          
-                <button className="dropdown-item"><User size={16} /> Profile</button>
+                 <button onClick={() => { setIsProfileDropdownOpen(false); onProfileClick(); }} className="dropdown-item"><User size={16} /> Profile</button>
+                <button onClick={() => { setIsProfileDropdownOpen(false); onDashboardClick(); }} className='dropdown-item'><Home size={16} />Dashboard</button>
                 <button onClick={onLogout} className="dropdown-item danger"><LogOut size={16} /> Logout</button>
               </div>
             )}
