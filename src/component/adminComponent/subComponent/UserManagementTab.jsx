@@ -32,10 +32,10 @@ const UserManagementTab = ({ users, sessions, onManage, onDelete, onCreateAdmin 
                   <p>{user.email}</p>
                 </div>
              </div>
-             <span className={`role-badge ${user.role}`}>
-                {user.role === 'superadmin' ? <Shield size={10}/> : <Users size={10}/>}
-                {user.role}
-             </span>
+                <span className={`role-badge ${user.role}`} >
+                     {user.role === 'superadmin' ? <Shield size={10}/> : <Users size={10}/>}
+                     {user.role}
+                  </span>
           </div>
 
           <div className="progress-section">
