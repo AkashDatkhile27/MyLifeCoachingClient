@@ -10,6 +10,7 @@ import UserNavbar from './userNavbar'
 import UserSession from './UserSession'
 import Footer from '../uiComponent/footer'
 import Profile from '../CommonComponent/Profile';
+import UserReflections from './UserReflection'; 
 // --- UTILITIES ---
 import generateSystemNotifications from '../../utils/generateSystemNotifications';
 // --- CONFIGURATION ---
@@ -25,6 +26,9 @@ const UserDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [audioSession, setAudioSession] = useState(null);
   const [notifications, setNotifications] = useState([]);
+  // user reflection state
+      const [selectedReflectionSessionId, setSelectedReflectionSessionId] = useState(null);
+
     // Tabs State
   const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard' or 'profile'
   // Toast State
@@ -200,6 +204,13 @@ const UserDashboard = () => {
     }
   };
 
+
+// user reflection component
+    const handleReflect = (session) => {
+        setSelectedReflectionSessionId(session._id);
+        setActiveTab('reflections');
+    };
+
   if (loading) return <div style={{height:'100vh', display:'flex', alignItems:'center', justifyContent:'center', background:'#000', color:'#fff'}}><Loader2 className="animate-spin" /></div>;
 
   const completedSessionsCount = sessions.filter(s => s.isCompleted).length;
@@ -213,6 +224,7 @@ const UserDashboard = () => {
             notifications={notifications} 
             onProfileClick={() => setActiveTab('profile')}
             onDashboardClick={() => setActiveTab('dashboard')}
+             onReflectionsClick={() => setActiveTab('reflections')}
             onLogout={() => { sessionStorage.clear(); window.location.href='/login';}} 
         />
         
@@ -243,13 +255,17 @@ const UserDashboard = () => {
                    session={session} 
                    userCreatedAt={currentUser?.createdAt}
                    onRequestAccess={handleRequestAccess}
-                   onOpenReflection={() => console.log('Reflect')}
+                   onOpenReflection={handleReflect}
                    onStartSession={handleStartSession}
                  />
                ))}
             </div>
              </>
-            ) : (
+            ): activeTab === 'reflections' ? (
+                <UserReflections 
+                    sessions={sessions} 
+                    user={currentUser} 
+                    initialSessionId={selectedReflectionSessionId}/>) :(
               <Profile 
                   user={currentUser} 
                   onUpdate={handleUpdateProfile} 

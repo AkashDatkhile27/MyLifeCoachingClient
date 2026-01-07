@@ -43,5 +43,8 @@ const adminDashboardApiService = {
   resetPassword: (data, token) => adminDashboardApiService.request('/auth/reset-password', 'PUT', data, token),
    
   fetchNotifications: (token) => adminDashboardApiService.request('/auth/notifications', 'GET', null, token),
+  // --- NEW: Reflections ---
+  fetchReflections: (token) => adminDashboardApiService.request('/admin/fetch-reflections', 'GET', null, token),
+  replyToReflection: (data, token) => adminDashboardApiService.request('/admin/reflections/reply', 'POST', data, token),
 };
 export default adminDashboardApiService;

@@ -1,13 +1,13 @@
 import React, { useState, useEffect,useRef } from 'react';
 
-import { Hexagon, ChevronDown, Bell, User, LogOut, Home } from 'lucide-react';
+import { Bell, ChevronDown, User, Home, LogOut, MessageSquare } from 'lucide-react';
 import '../../css/dashboard.css'
 import NotificationDropdown from '../uiComponent/NotificationDropdown';
 import LogoImg from '../../assests/Logo.jpg';
 
 import * as utils from '../../utils/getUserSessionStatusAndInitials';
 
-const UserNavbar =({ user, notifications = [], onProfileClick, onLogout, onDashboardClick }) => {
+const UserNavbar =({ user, notifications = [], onProfileClick, onLogout, onDashboardClick,onReflectionsClick}) => {
   const [isNotifOpen, setIsNotifOpen] = useState(false);
   const notifRef = useRef(null);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
@@ -49,8 +49,15 @@ const UserNavbar =({ user, notifications = [], onProfileClick, onLogout, onDashb
                 notifications={notifications}
             />
           </div>
+           {/* daily Journal */}
+          <div className="notification-container" ref={notifRef}>
+           <button className="notification-btn" onClick={() => onReflectionsClick()}> <MessageSquare size={16}/>
+            </button>
+            </div>
+            <div className='notification-container'>
+          <button className="notification-btn" onClick={() => {onDashboardClick(); }}><Home size={16} /></button></div>
           <div className="profile-dropdown-container">
-            <button onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)} className="profile-btn">
+            <button  onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)} className="profile-btn">
               {safeUser.profilePicture ? (
                 <img className="avatar-img" src={safeUser.profilePicture} alt={safeUser.Name} />
               ) : (
@@ -65,6 +72,7 @@ const UserNavbar =({ user, notifications = [], onProfileClick, onLogout, onDashb
                    <div style={{ fontWeight: 600, fontSize: '0.85rem', overflow: 'hidden', textOverflow: 'ellipsis', color: '#fff' }}>{safeUser.email}</div>
                 </div>
                 <button onClick={() => { setIsProfileDropdownOpen(false); onProfileClick(); }} className="dropdown-item"><User size={16} /> Profile</button>
+                 <button onClick={() => { setIsProfileDropdownOpen(false); onReflectionsClick(); }} className="dropdown-item"><MessageSquare size={16}/> Daily Journal</button>
                 <button onClick={() => { setIsProfileDropdownOpen(false); onDashboardClick(); }} className='dropdown-item'><Home size={16} />Dashboard</button>
                 <button onClick={onLogout} className="dropdown-item danger"><LogOut size={16} /> Logout</button>
               </div>
@@ -102,6 +110,7 @@ const UserNavbar =({ user, notifications = [], onProfileClick, onLogout, onDashb
                 </div>
          
                 <button onClick={() => { setIsProfileDropdownOpen(false); onProfileClick(); }}  className="dropdown-item"><User size={16} /> Profile</button>
+                 <button onClick={() => { setIsProfileDropdownOpen(false); onReflectionsClick(); }} className="dropdown-item"><MessageSquare size={16}/> Daily Journal</button>
                  <button onClick={() => { setIsProfileDropdownOpen(false); onDashboardClick(); }} className='dropdown-item'><Home size={16} />Dashboard</button>
                 <button onClick={onLogout} className="dropdown-item danger"><LogOut size={16} /> Logout</button>
               </div>

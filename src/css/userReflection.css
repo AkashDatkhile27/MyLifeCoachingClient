@@ -1,0 +1,319 @@
+.reflections-container {
+        display: flex;
+        height: 80vh;
+        background-color: #000000;
+        color: #ffffff;
+        font-family: 'Inter', system-ui, sans-serif;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid #333333;
+        margin-top: 20px;
+    }
+
+    /* SIDEBAR */
+    .reflections-sidebar {
+        width: 340px;
+        background-color: #000000;
+        border-right: 1px solid #333333;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.3s ease;
+        scrollbar-width: thin;
+        scrollbar-color: #333 #000;
+    }
+
+    .sidebar-header {
+        padding: 24px;
+        border-bottom: 1px solid #333333;
+        background-color: #000000;
+    }
+    .sidebar-header h3 { margin: 0 0 4px 0; color: #fff; font-size: 1.2rem; font-weight: 700; }
+    .sidebar-header p { margin: 0; color: #888; font-size: 0.85rem; }
+
+    .session-list-scroll { 
+        flex: 1; 
+        overflow-y: auto; 
+        padding: 12px; 
+         scrollbar-width: thin;
+         scrollbar-color: inherit;
+            
+        scroll-behavior:smooth;
+    
+    }
+
+    .journal-item {
+        padding: 16px;
+        border-radius: 12px;
+        cursor: pointer;
+        margin-bottom: 8px;
+        transition: all 0.2s;
+        border: 1px solid transparent;
+        background-color: #000;
+    }
+    .journal-item:hover { background-color: #111; }
+    .journal-item.active { 
+        background-color: #111; 
+        border-color: #333; 
+        box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+    .journal-item.locked { opacity: 0.5; cursor: not-allowed; }
+
+    .journal-meta { display: flex; justify-content: space-between; margin-bottom: 6px; }
+    .day-label { font-size: 0.7rem; font-weight: 700; color: #666; text-transform: uppercase; letter-spacing: 0.5px; }
+    .reply-badge { 
+        font-size: 0.65rem; 
+        background: #fff; 
+        color: #000; 
+        padding: 2px 8px; 
+        border-radius: 99px; 
+        font-weight: 800; 
+        text-transform: uppercase;
+    }
+
+    .journal-title { 
+        color: #eee; 
+        font-weight: 600; 
+        font-size: 0.95rem; 
+        margin-bottom: 6px; 
+        display: flex; 
+        align-items: center; 
+        gap: 8px;
+    }
+    .journal-preview { color: #888; font-size: 0.8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    /* MAIN AREA */
+    .reflection-main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        background-color: #000000;
+        position: relative;
+        transition: transform 0.3s ease;
+        scrollbar-width: thin;
+        scrollbar-color: #333 #000;
+    }
+
+    .reflection-header {
+        padding: 16px 24px;
+        border-bottom: 1px solid #333333;
+        display: flex;
+        align-items: center;
+        background-color: #000;
+        z-index: 10;
+        gap: 12px;
+    }
+
+    .back-btn {
+        display: none; /* Hidden on desktop */
+        background: transparent;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+        padding: 8px;
+        margin-left: -8px;
+        border-radius: 50%;
+    }
+    .back-btn:hover { background-color: #222; }
+
+    .header-content { flex: 1; }
+    .topic-label { font-size: 0.7rem; color: #666; font-weight: 700; letter-spacing: 1px; display: block; margin-bottom: 4px; }
+    .header-content h2 { margin: 0 0 8px 0; color: #fff; font-size: 1.25rem; font-weight: 600; }
+    
+    .context-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+    .pill { 
+        font-size: 0.75rem; 
+        background: #111; 
+        color: #aaa; 
+        padding: 4px 10px; 
+        border-radius: 99px; 
+        border: 1px solid #333;
+    }
+
+    .reflection-scroll-area { 
+        flex: 1; 
+        overflow-y: auto; 
+        padding: 24px 15%; /* Centered feel on desktop */
+        display: flex; 
+        flex-direction: column; 
+        gap: 20px; 
+    }
+
+    /* Coach Insight Card */
+    .coach-note-card {
+        background: #111;
+        border: 1px dashed #444;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 10px;
+        position: relative;
+    }
+    .note-header { 
+        display: flex; 
+        align-items: center; 
+        gap: 8px; 
+        margin-bottom: 8px; 
+        color: #fff; 
+        font-size: 0.75rem; 
+        font-weight: 700; 
+        text-transform: uppercase; 
+        letter-spacing: 1px; 
+    }
+    .note-content { color: #ccc; font-size: 0.95rem; line-height: 1.6; font-style: italic; font-family: serif; }
+
+    /* Bubbles */
+    .message-bubble { 
+        padding: 16px; 
+        border-radius: 16px; 
+        max-width: 80%; 
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        animation: fadeIn 0.3s ease-out;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .message-bubble.user { 
+        background: #111; 
+        color: #fff;
+        align-self: flex-start; 
+        border-bottom-left-radius: 2px;
+        border: 1px solid #333;
+        border-left: 3px solid #fff;
+    }
+
+    .message-bubble.admin { 
+        background: #fff; 
+        color: #000; 
+        align-self: flex-end; 
+        border-bottom-right-radius: 2px;
+    }
+
+    .bubble-header { 
+        font-size: 0.7rem; 
+        font-weight: 700; 
+        margin-bottom: 6px; 
+        opacity: 0.7; 
+        text-transform: uppercase; 
+        display: flex; 
+        align-items: center; 
+        gap: 6px;
+    }
+
+    .bubble-content { 
+        font-size: 0.95rem; 
+        line-height: 1.6; 
+        white-space: pre-wrap; 
+    }
+
+    .bubble-footer {
+        font-size: 0.7rem;
+        opacity: 0.5;
+        margin-top: 8px;
+        text-align: right;
+        font-weight: 500;
+    }
+
+    .status-indicator { 
+        font-size: 0.8rem; 
+        color: #666; 
+        display: flex; 
+        align-items: center; 
+        gap: 6px; 
+        margin-top: 4px; 
+        font-style: italic; 
+        align-self: flex-start;
+        padding-left: 4px;
+    }
+
+    /* Input Area */
+    .reflection-input-area {
+        padding: 20px;
+        border-top: 1px solid #333;
+        background: #000;
+        display: flex;
+        gap: 12px;
+        align-items: flex-end;
+    }
+    .journal-input {
+        flex: 1;
+        background: #111;
+        border: 1px solid #333;
+        border-radius: 12px;
+        padding: 14px;
+        color: #fff;
+        font-family: inherit;
+        font-size: 0.95rem;
+        resize: none;
+        height: 60px;
+        outline: none;
+        transition: border 0.2s;
+    }
+    .journal-input:focus { border-color: #fff; background: #000; }
+    
+    .btn1 { 
+        width: 50px; 
+        height: 60px; 
+        border-radius: 12px; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        cursor: pointer; 
+        border: none; 
+        transition: all 0.2s;
+    }
+    .btnprimary { background: #fff; color: #000; }
+    .btnprimary:hover:not(:disabled) { background: #ccc; transform: scale(1.05); }
+    .btnprimary:disabled { opacity: 0.5; cursor: not-allowed; background: #333; color: #666; }
+
+    /* Empty States */
+    .empty-state, .empty-placeholder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #444;
+        text-align: center;
+        height: 100%;
+        gap: 16px;
+    }
+
+    /* Loader */
+    .spinner-sm {
+        width: 20px;
+        height: 20px;
+        border: 2px solid rgba(0,0,0,0.1);
+        border-radius: 50%;
+        border-top-color: #000;
+        animation: spin 1s ease-in-out infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* MOBILE RESPONSIVENESS */
+    @media (max-width: 768px) {
+        .reflections-container { 
+            height: calc(100vh - 80px); /* Adjust based on navbar */
+            border: none; 
+            border-radius: 0;
+        }
+        
+        .reflections-sidebar { 
+            width: 100%; 
+            border-right: none;
+        }
+        /* Hide sidebar when session is selected */
+        .reflections-sidebar.mobile-hidden { display: none; }
+
+        .reflection-main { 
+            width: 100%; 
+            display: none; /* Hidden by default on mobile */
+        }
+        /* Show main when session is selected */
+        .reflection-main.mobile-active { display: flex; }
+
+        .back-btn { display: block; }
+        
+        .reflection-scroll-area { padding: 20px; }
+        
+        .reflection-header { padding: 12px 16px; }
+        .header-content h2 { font-size: 1.1rem; }
+    }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect,useRef } from 'react';
 
 import { Hexagon, ChevronDown, Bell, User, LogOut } from 'lucide-react';
-import '../../../css/dashboard.css'
+import '../../../css/adminDashboard.css'
 import LogoImg from '../../../assests/Logo.jpg';
 import { Home } from 'lucide-react';
 

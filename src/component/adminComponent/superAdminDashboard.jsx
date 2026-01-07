@@ -15,6 +15,7 @@ import SessionManagementTab from './subComponent/SessionManagementTab';
 import CreateAdminModal from './subComponent/CreateAdminModal';
 import SessionModal from './subComponent/SessionModal';
 import AccessManagementModal from './subComponent/AccessManagementModal';
+import ReflectionTab from './subComponent/AdminReflectionsTab'
 // --- CSS STYLES ---
 import adminStyles from '../../css/adminDashboard.css';
 // --- API SERVICE ---
@@ -259,6 +260,7 @@ const SuperAdminDashboard = () => {
           <div className="tabs-header">
             <button className={`tab-btn ${activeTab === 'users' ? 'active' : ''}`} onClick={() => setActiveTab('users')}>User Management</button>
             <button className={`tab-btn ${activeTab === 'sessions' ? 'active' : ''}`} onClick={() => setActiveTab('sessions')}>Curriculum</button>
+              <button className={`tab-btn ${activeTab === 'reflections' ? 'active' : ''}`} onClick={() => setActiveTab('reflections')}> Reflections</button>
             <button className={`tab-btn ${activeTab === 'access' ? 'active' : ''}`} onClick={() => setActiveTab('access')}>Access Policy</button>
           </div>
 
@@ -277,7 +279,9 @@ const SuperAdminDashboard = () => {
               onDelete={handleDeleteSession}
               onCreateSession={() => { setSelectedItem(null); setModals({...modals, session: true}); }}
             />
-          ) : (
+          )  : activeTab === 'reflections' ? (
+            <ReflectionTab />
+          ): (
             <div style={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', height:'300px', border:'2px dashed #333', borderRadius:'12px', color:'#666', gap:'16px'}}>
                 <Shield size={48} color="#333" />
                 <div style={{textAlign:'center'}}>
