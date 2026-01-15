@@ -1,0 +1,222 @@
+
+  .section-header { text-align: center; margin-bottom: 50px; }
+  .section-headline { font-family: serif; font-size: 2.5rem; font-weight: 700; margin-bottom: 10px; color: #111; }
+  .section-subhead { color: #666; font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+  /* Pillars Section */
+  .section-pillars { padding: 80px 24px; background: #fff; }
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .pillar-card { text-align: center; padding: 20px; }
+  .pillar-icon-box {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px auto;
+  }
+  .pillar-title { font-weight: 700; font-size: 1.25rem; margin-bottom: 12px; color: #111; }
+  .pillar-desc { color: #666; font-size: 0.95rem; line-height: 1.6; }
+
+  /* Who Is This For Section */
+  .section-audience { padding: 80px 24px; background: #fafafa; }
+  .audience-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  @media (max-width: 768px) { .audience-grid { grid-template-columns: 1fr; } }
+  
+  .audience-item { display: flex; gap: 15px; margin-bottom: 25px; }
+  .check-icon { color: #16a34a; flex-shrink: 0; margin-top: 4px; }
+  .audience-content h4 { font-weight: 700; font-size: 1.1rem; margin-bottom: 5px; color: #111; }
+  .audience-content p { color: #666; font-size: 0.95rem; line-height: 1.5; }
+
+  /* Program Details Section */
+  .section-details { padding: 100px 24px; background: #fff; }
+  .details-card {
+    background: #fff;
+    border-radius: 30px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+    max-width: 900px;
+    margin: 0 auto;
+    overflow: hidden;
+    border: 1px solid #f0f0f0;
+  }
+  .details-header-row {
+    display: flex;
+    justify-content: space-around;
+    padding: 50px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    background: #fdfdfd;
+    flex-wrap: wrap;
+    gap: 30px;
+  }
+  .detail-stat { text-align: center; }
+  .detail-icon-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px auto;
+    color: white;
+  }
+  .stat-label { font-weight: 700; font-size: 1.1rem; margin-bottom: 5px; color: #111; }
+  .stat-value { font-size: 1.5rem; font-weight: 800; color: #7c3aed; }
+  .stat-sub { font-size: 0.85rem; color: #888; margin-top: 5px; }
+  .old-price { text-decoration: line-through; color: #9ca3af; font-size: 1.1rem; font-weight: 500; margin-left: 8px; }
+
+
+  .details-content { padding: 50px; 
+  position: relative;
+    bottom: 55px;
+}
+  .details-list-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px 40px;
+  }
+  @media (max-width: 600px) { .details-list-grid { grid-template-columns: 1fr; } }
+  .detail-list-item { display: flex; align-items: center; gap: 12px; color: #444; font-size: 1rem; }
+  .mini-check { color: #16a34a; width: 18px; height: 18px; }
+
+  /* FAQ Section */
+  .section-faq { padding: 80px 24px; background: #fff; }
+  .faq-container { max-width: 800px; margin: 0 auto; }
+  .faq-item { border: 1px solid #eee; border-radius: 12px; margin-bottom: 15px; overflow: hidden; }
+  .faq-question {
+    padding: 20px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    background: #fff;
+    font-weight: 600;
+    color: #111;
+    transition: background 0.2s;
+  }
+  .faq-question:hover { background: #fafafa; }
+  .faq-answer {
+    padding: 0 24px 24px 24px;
+    color: #555;
+    line-height: 1.6;
+    display: none;
+    animation: fadeIn 0.3s ease;
+  }
+  .faq-item.active .faq-answer { display: block; }
+  .faq-item.active .faq-question { color: #7c3aed; }
+  
+  /* CTA Footer Section - Updated to match Mission Card */
+.about-container-cta{
+    align-items: center;
+    height: 266px;
+     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+
+  .section-cta-footer {
+    background-color: #000000;
+    color: #ffffff;
+    /* Reduced top/bottom padding to reduce height */
+    padding: 60px 24px 40px 24px; 
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    /* Box styles */
+    max-width: 1000px;
+    margin: 0 auto 60px auto; 
+    border-radius: 30px;
+    width: calc(100% - 48px);
+  }
+  
+  .cta-headline { 
+    font-family: serif; 
+    font-size: 2.5rem; 
+    font-weight: 700; 
+    margin-bottom: 1.5rem;
+  }
+  
+  .cta-sub { 
+    color: #cccccc; 
+    font-size: 1.1rem; 
+    line-height: 1.6; 
+    max-width: 600px; 
+    margin: 0 auto 1rem auto; 
+    opacity: 1; /* Override old opacity */
+        position: relative;
+    bottom: 65px;
+  }
+  
+  .final-btn {
+    background: #ffffff;
+    color: #000000;
+    /* Reduced padding for smaller width and height */
+    padding: 10px 34px; 
+    border-radius: 99px; /* Pill shape */
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    transition: transform 0.2s ease;
+    box-shadow: none;
+    bottom: 109px;
+
+  }
+  .final-btn:hover { transform: translateY(-2px); }
+  
+  .cta-footer-bottom {
+    /* Reduced top margin to reduce overall height */
+    margin-top: 10px; 
+    color: #cccccc;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    font-size: 0.85rem;
+    opacity: 0.7;
+    position: relative;
+    border-top: 1px solid rgba(255, 255, 255, 0.796);
+    padding-top: 30px;
+    bottom: 211px;
+
+  }
+  .footer-nav-list {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 0;
+    margin: 0;
+  }
+  .footer-nav-link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+  }
+  .footer-nav-link:hover { opacity: 1; }
+  .footer-social-container {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  .footer-link { display: flex; align-items: center; gap: 6px; }

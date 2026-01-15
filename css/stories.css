@@ -1,0 +1,176 @@
+ /* --- STORIES SECTION --- */
+    .section-stories {
+      padding: 80px 24px;
+      background: #fafafa;
+      width: 100vw;
+      overflow: hidden;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    .section-title-wrapper {
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #111;
+      margin: 0;
+    }
+
+    /* --- SCROLL WRAPPER --- */
+    .stories-wrapper {
+      position: relative;
+      max-width: 1500px; 
+      margin: 0 auto;
+      /* Add padding to sides to make room for arrows outside the grid */
+      padding: 0 60px; 
+    }
+
+    /* --- NAVIGATION BUTTONS --- */
+    .scroll-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 20;
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      background: white;
+      border: 1px solid #e5e5e5;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: #333;
+    }
+
+    .scroll-btn:hover {
+      background: #fff;
+      border-color: #333;
+      transform: translateY(-50%) scale(1.05);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+    }
+
+    /* Position buttons inside the wrapper's padding area */
+    .scroll-btn.left {
+      left: 0;
+    }
+
+    .scroll-btn.right {
+      right: 0;
+    }
+
+    /* --- GRID LAYOUT --- */
+    .stories-grid {
+      display: flex;
+      overflow-x: auto;
+      gap: 2rem; /* 32px gap */
+      padding: 1rem 0.5rem 2rem 0.5rem;
+      scroll-behavior: smooth;
+      scroll-snap-type: x mandatory;
+      
+      /* Hide scrollbars */
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    
+    .stories-grid::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* --- CARD STYLES --- */
+    .story-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 16px;
+      border: 1px solid #f0f0f0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      
+      /* Logic for 3 cards visible: 
+         (100% width - 2 gaps of 2rem) divided by 3 
+         We subtract 4rem (2 gaps * 2rem) */
+      flex: 0 0 calc((100% - 4rem) / 3);
+      
+      /* Snap alignment */
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .story-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+    }
+
+    /* --- RESPONSIVE --- */
+    @media (max-width: 1024px) {
+      .story-card {
+        /* Show 2 cards on tablet */
+        flex: 0 0 calc((100% - 2rem) / 2);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .section-stories {
+        padding: 60px 16px;
+      }
+      
+      .stories-wrapper {
+        padding: 0; /* Remove padding on mobile */
+      }
+      
+      .scroll-btn {
+        display: none; /* Hide arrows on mobile (touch scroll) */
+      }
+      
+      .story-card {
+        /* Show 1 card (almost full width) on mobile */
+        flex: 0 0 85vw;
+        scroll-snap-align: center;
+      }
+    }
+
+    /* Card Internal Elements */
+    .story-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .story-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background-color: #eee;
+    }
+
+    .story-name {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #111;
+    }
+
+    .story-role {
+      font-size: 0.875rem;
+      color: #666;
+    }
+
+    .story-quote {
+      font-style: italic;
+      color: #444;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+      flex-grow: 1;
+    }
+
+    .stars {
+      color: #fbbf24;
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+    }

@@ -1,0 +1,136 @@
+/* Scoped to the component to avoid global body pollution if used elsewhere, 
+   but applying the requested variables and styles. */
+.landing-container_h2 {
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-800: #1f2937;
+  /* Updated fonts */
+  --font-sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-serif: sans-serif;
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --duration-normal: 300ms;
+
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: var(--color-black);
+  color: var(--color-white);
+  font-family: var(--font-sans);
+}
+
+.content-wrapper {
+  position: relative;
+  z-index: 10;
+  padding: 0 1.5rem;
+  max-width: 64rem; /* Increased max-width for bigger text */
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.bg-wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.bg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Removed grayscale, adjusted brightness/contrast to let color show */
+  filter: brightness(90%) contrast(110%);
+}
+
+.bg-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  /* Adjusted gradient to be more transparent to show image colors */
+  background: linear-gradient(
+    to bottom, 
+    rgba(0, 0, 0, 0.8) 0%, 
+    rgba(0, 0, 0, 0.4) 30%, 
+    rgba(0, 0, 0, 0.2) 50%,
+    rgba(255, 255, 255, 0.1) 70%,
+    rgba(255, 255, 255, 0.4) 100%
+  );
+  background-size: 100% 300%;
+  animation: shadeShift 12s ease-in-out infinite;
+  backdrop-filter: blur(0px);
+}
+
+.headline {
+  /* Changed font to serif for a distinct look */
+  font-family: var(--font-serif);
+  /* Increased font sizes */
+  font-size: 2.5rem; 
+  line-height: 1.1;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  letter-spacing: -0.02em;
+  text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  
+  /* Animation Setup */
+  opacity: 0;
+  animation: fadeInUp 1s ease-out forwards 0.2s;
+}
+
+@media (min-width: 768px) {
+  .headline {
+    font-size: 4.5rem; /* Bigger on tablet */
+  }
+}
+
+@media (min-width: 1024px) {
+  .headline {
+    font-size: 5.5rem; /* Much bigger on desktop */
+  }
+}
+
+.description {
+  color: var(--color-gray-300);
+  font-family: var(--font-sans);
+  /* Increased font size */
+  font-size: 1.35rem;
+  line-height: 1.6;
+  max-width: 48rem;
+  margin-bottom: 3rem;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+  
+  /* Animation Setup */
+  opacity: 0;
+  animation: fadeInUp 1s ease-out forwards 0.6s; /* Delayed entrance */
+}
+
+@keyframes shadeShift {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 0% 40%; }
+  100% { background-position: 0% 0%; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Updated utility class if needed, though individual animations are now applied directly above */
+.fade-in-up {
+  opacity: 0;
+  animation: fadeInUp 1s ease-out forwards;
+}

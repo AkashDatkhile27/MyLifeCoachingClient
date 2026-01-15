@@ -1,0 +1,637 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+
+
+/* Scoped to Home Page */
+
+.home-root {
+
+  /* --- Light Monochrome Palette --- */
+
+  --primary: #000000;
+
+  --primary-dim: #333333;
+
+  --bg-main: #ffffff;
+
+  --bg-secondary: #f8fafc;
+
+  --bg-card: #ffffff;
+
+  --bg-glass: rgba(255, 255, 255, 0.9);
+
+ 
+
+  --text-main: #111827;
+
+  --text-muted: #64748b;
+
+  --text-inverse: #ffffff;
+
+ 
+
+  --border-color: #e2e8f0;
+
+  --border-highlight: #cbd5e1;
+
+ 
+
+  --shadow-glow: 0 0 20px rgba(0, 0, 0, 0.1);
+
+  --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+
+  --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+
+
+
+  font-family: 'Inter', sans-serif;
+
+  color: var(--text-main);
+
+  background-color: var(--bg-main);
+
+  line-height: 1.6;
+
+  min-height: 100vh;
+
+  -webkit-font-smoothing: antialiased;
+
+  overflow-x: hidden;
+
+}
+
+
+
+.container {
+
+  max-width: 1200px;
+
+  margin: 0 auto;
+
+  padding: 0 24px;
+
+}
+
+
+
+/* --- ANIMATIONS --- */
+
+@keyframes emergeFromFog {
+
+  0% { color: #cbd5e1; opacity: 0.5; }
+
+  50% { color: #64748b; opacity: 0.8; }
+
+  100% { color: #000000; opacity: 1; }
+
+}
+
+
+
+@keyframes fadeUp {
+
+  from { opacity: 0; transform: translateY(20px); }
+
+  to { opacity: 1; transform: translateY(0); }
+
+}
+
+
+
+/* BEAM REVEAL ANIMATION (Replacing Hinge)
+
+   - Expands from top like a light beam
+
+   - Starts bright white (flash) and settles to glass
+
+*/
+
+@keyframes beamReveal {
+
+  0% {
+
+    clip-path: inset(0 0 100% 0); /* Hidden at top */
+
+    background-color: rgba(255, 255, 255, 0.9); /* Bright Flash */
+
+    backdrop-filter: blur(0px);
+
+  }
+
+  40% {
+
+    background-color: rgba(255, 255, 255, 0.7);
+
+  }
+
+  100% {
+
+    clip-path: inset(0 0 0% 0); /* Fully revealed */
+
+    background-color: rgba(255, 255, 255, 0.4); /* Glass Settle */
+
+    backdrop-filter: blur(16px);
+
+  }
+
+}
+
+
+
+/* SUN RAY BURST ANIMATION (Secondary Effect) */
+
+@keyframes sunRayBurst {
+
+  0% { opacity: 0; transform: translateX(-50%) scale(0.8); }
+
+  50% { opacity: 0.6; transform: translateX(-50%) scale(1.1); }
+
+  100% { opacity: 0; transform: translateX(-50%) scale(1.3); }
+
+}
+
+
+
+/* --- BUTTONS --- */
+
+.btn {
+
+  padding: 12px 32px;
+
+  border-radius: 6px;
+
+  border: 1px solid transparent;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+
+  font-size: 0.95rem;
+
+  letter-spacing: 0.5px;
+
+}
+
+
+
+.btn-primary {
+
+  background-color: var(--primary);
+
+  color: var(--text-inverse);
+
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+}
+
+
+
+.btn-primary:hover {
+
+  background-color: var(--primary-dim);
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+
+}
+
+
+
+.btn-white {
+
+  background: transparent;
+
+  color: var(--text-main);
+
+  border: 1px solid var(--border-color);
+
+}
+
+
+
+.btn-white:hover {
+
+  border-color: var(--primary);
+
+  background: var(--bg-main);
+
+  transform: translateY(-2px);
+
+  box-shadow: var(--shadow-card);
+
+}
+
+
+
+.w-full { width: 100%; }
+
+
+
+/* --- NAVBAR --- */
+
+.navbar {
+
+  background: rgba(255,255,255,0.05);
+
+  backdrop-filter: blur(16px);
+
+  /* -webkit-backdrop-filter: blur(16px); */
+
+  position: fixed;
+
+  top: 0;
+
+  z-index: 1000;
+
+  /* border-bottom: 1px solid var(--border-color); */
+
+  height: 65px;
+
+  display: flex;
+
+  align-items: center;
+
+  width: 100%;
+
+}
+
+
+
+.navContent {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  width: 100%;
+
+  padding: 0 24px;
+
+  max-width: 100%;
+
+}
+
+
+
+/* LOGO UPDATED */
+
+  .logo {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    text-decoration: none;
+
+    color: var(--color-white);
+
+    font-family: serif;
+
+    font-weight: 800;
+
+    font-size: 1.5rem;
+
+    cursor: pointer;
+
+    z-index: 1002;
+
+    letter-spacing: -0.5px;
+
+  }
+
+
+
+  .logoImg {
+
+    width: 40px;
+
+    height: 40px;
+
+    background: white;
+
+    border-radius: 16px;
+
+    object-fit: cover;
+
+    display: block;
+
+    position: relative;
+
+    z-index: 10;
+
+    box-shadow: 0 10px 20px rgba(255,255,255,0.1);
+
+    border: 2px solid rgba(255,255,255,0.2);
+
+  }
+
+
+
+
+
+.nav-links {
+
+  display: flex;
+  
+  gap: 2.5rem;
+
+  align-items: center;
+
+}
+
+
+
+.nav-links a {
+
+  text-decoration: none;
+
+  color: var(--text-muted);
+
+  font-weight: 500;
+
+  font-size: 0.95rem;
+
+  transition: color 0.3s ease;
+
+}
+
+
+
+.nav-links a:hover {
+
+  color: var(--primary);
+
+}
+
+
+
+/* Mobile Menu Button */
+
+.mobile-menu-btn {
+
+  display: none;
+
+  background: none;
+
+  border: none;
+
+  cursor: pointer;
+
+  z-index: 1002;
+
+  color: #64748b;
+
+}
+
+
+
+/* MOBILE MENU OVERLAY
+
+  - Starts below navbar (top: 80px)
+
+  - Uses BEAM REVEAL Animation (Clip Path)
+
+  - Width: 100% (Drawer style)
+
+  - Height: Auto (Content based)
+
+*/
+
+.mobile-menu-overlay {
+
+  position: fixed;
+
+  top: 62px;
+
+  left: 0;
+
+  width: 100%;
+
+  height: auto;
+
+  padding-bottom: 3rem;
+
+ 
+
+  /* Initial State (Invisible) */
+
+  clip-path: inset(0 0 100% 0);
+
+  background-color: rgba(255, 255, 255, 0.4);
+
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+
+ 
+
+  z-index: 999;
+
+  pointer-events: none;
+
+ 
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  padding-top: 40px;
+
+}
+
+
+
+/* Add pseudo-element for Sun Ray Effect */
+
+.mobile-menu-overlay::after {
+
+  content: '';
+
+  position: absolute;
+
+  top: 0;
+
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  width: 100%;
+
+  height: 150%;
+
+  /* Radial gradient simulating a light burst source */
+
+  background: radial-gradient(circle at top center, rgba(255,255,255,0.9) 0%, transparent 60%);
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  z-index: -1;
+
+}
+
+
+
+.mobile-menu-overlay.open {
+
+  /* Trigger the Beam Reveal */
+
+  animation: beamReveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+
+  pointer-events: auto;
+
+}
+
+
+
+/* Trigger Sun Ray on open */
+
+.mobile-menu-overlay.open::after {
+
+  animation: sunRayBurst 1s ease-out forwards;
+
+}
+
+
+
+/* Close Button Positioned Top Right OF THE OVERLAY */
+
+.mobile-close-btn {
+
+  position: absolute;
+
+  top: 16px;
+
+  right: 24px;
+
+  background: rgba(255,255,255,0.3);
+
+  border: 1px solid rgba(0,0,0,0.05);
+
+  border-radius: 50%;
+
+  width: 40px;
+
+  height: 40px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  cursor: pointer;
+
+  color: #111827;
+
+  transition: all 0.2s ease;
+
+}
+
+
+
+.mobile-close-btn:hover {
+
+  background: #000;
+
+  color: #fff;
+
+  transform: rotate(90deg);
+
+}
+
+
+
+.mobile-nav-links {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 1.5rem;
+
+  text-align: center;
+
+  width: 100%;
+
+  padding: 0 20px;
+
+}
+
+
+
+.mobile-nav-links a {
+
+  font-size: 1.25rem;
+
+  text-decoration: none;
+
+  color: #000000;
+
+  font-weight: 600;
+
+  letter-spacing: -0.5px;
+
+  opacity: 0; /* Start hidden for stagger */
+
+  transform: translateY(-10px);
+
+  transition: all 0.3s ease;
+
+  padding: 10px;
+
+  border-radius: 8px;
+
+}
+
+
+
+/* Staggered entry for links when menu is open */
+
+.mobile-menu-overlay.open .mobile-nav-links a {
+
+  opacity: 1;
+
+  transform: translateY(0);
+
+}
+
+.mobile-menu-overlay.open .mobile-nav-links a:nth-child(1) { transition-delay: 0.1s; }
+
+.mobile-menu-overlay.open .mobile-nav-links a:nth-child(2) { transition-delay: 0.2s; }
+
+.mobile-menu-overlay.open .mobile-nav-links a:nth-child(3) { transition-delay: 0.3s; }
+
+.mobile-menu-overlay.open .mobile-nav-links a:nth-child(4) { transition-delay: 0.4s; }
+
+.mobile-menu-overlay.open .mobile-nav-links a:nth-child(5) { transition-delay: 0.5s; }
+
+
+
+
+
+.mobile-nav-links a:hover {
+
+  background: rgba(255,255,255,0.5);
+
+  transform: scale(1.02);
+
+}
+
+
+
+@media (max-width: 768px) {
+
+  .desktop-only { display: none; }
+
+  .mobile-menu-btn { display: block; }}

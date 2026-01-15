@@ -1,0 +1,308 @@
+.landing-container {
+  position: relative;
+  min-height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  color: #ffffff;
+   --color-black: #000000;
+  --color-white: #ffffff;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-800: #1f2937;
+  --font-sans: system-ui, -apple-system, sans-serif;
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --duration-normal: 300ms;
+   padding-top: 100px; 
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  background-color: var(--color-black);
+  color: var(--color-white);
+  overflow-x: hidden;
+}
+.content-wrapper {
+    position: relative;
+    z-index: 10;
+    padding: 0 1.5rem;
+    max-width: 64rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    /* Vigentle effect (High contrast shadow for readability) */
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.9), 0 2px 4px rgba(0,0,0,0.5);
+  }
+
+  .bg-wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 0;
+  }
+
+  .bg-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%) brightness(50%) contrast(125%);
+  }
+
+  .bg-overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: radial-gradient(circle at center, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.8) 100%);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* Button & Ripple Styles */
+  .button-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .continuous-pulse {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 9999px;
+    background-color: rgba(255, 255, 255, 0.5);
+    z-index: 0;
+    animation: ping 2.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+
+  .continuous-pulse.delay {
+    animation-delay: 1.25s;
+  }
+
+  .life-button {
+    position: relative;
+    overflow: hidden;
+    z-index: 10;
+    width: 8rem;  
+    height: 8rem;
+    background-color: var(--color-white);
+    color: var(--color-black);
+    border-radius: 9999px;
+    border: none;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1.25rem;
+    letter-spacing: 0.1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 40px rgba(255, 255, 255, 0.3);
+    transition: all var(--duration-normal) var(--ease-out);
+  }
+
+  @media (min-width: 768px) {
+    .life-button {
+      width: 10rem;
+      height: 10rem;
+      font-size: 1.5rem;
+    }
+  }
+
+  .life-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 60px rgba(255, 255, 255, 0.5);
+  }
+
+  .click-ripple {
+    position: absolute;
+    border-radius: 50%;
+    background-color: #000;
+    opacity: 0.2;
+    transform: scale(0);
+    pointer-events: none;
+    animation: ripple-expand 600ms linear;
+  }
+
+  /* Typography Updates */
+  .headline {
+    font-size: 2rem; 
+    line-height: 1.1;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.025em;
+    color: #ffffff;
+  }
+
+  @media (min-width: 768px) {
+    .headline {
+      font-size: 3.15rem; 
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .headline {
+      font-size: 4rem; 
+    }
+  }
+
+  .subtitle-highlight {
+    display: block;
+    color: var(--color-gray-300);
+    font-size: 1.5rem; /* Smaller on mobile */
+    line-height: 1.2;
+    margin-top: 0.5rem;
+    position: relative;
+    bottom: 0; 
+  }
+
+  @media (min-width: 768px) {
+    .subtitle-highlight {
+      font-size: 2.2rem; /* Adjusted for desktop */
+    }
+  }
+
+  .description_h1 {
+    color: var(--color-gray-300);
+    font-family: var(--font-sans);
+    font-size: 1.2rem;
+    line-height: 1.6;
+    max-width: 48rem;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeInUp 1s ease-out forwards 0.6s;
+    position: relative;
+  }
+  
+  @media (min-width: 768px) {
+    .description_h1 {
+      font-size: 1.35rem;
+    }
+  }
+
+  .offer-highlight {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 1.1em;
+    color: #fff;
+    font-weight: 500;
+  }
+
+  .price {
+    color: #4ade80; /* Green for price */
+    font-weight: 700;
+  }
+
+  .strike {
+    text-decoration: line-through;
+    opacity: 0.7;
+    font-size: 0.9em;
+    margin-left: 0.5rem;
+  }
+
+  /* Book Now Button */
+  .book-now-btn {
+    background-color: #ffffff;
+    color: #000000;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 1.125rem;
+    padding: 1rem 3rem;
+    border-radius: 9999px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    margin-bottom: 3rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .book-now-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
+    background-color: #f3f4f6;
+  }
+
+  /* Footer Icons */
+  .footer-icons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    color: var(--color-gray-500);
+    background: rgba(0,0,0,0.6);
+    padding: 1rem 2rem;
+    border-radius: 9999px;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .icon-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .icon-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-gray-300);
+    text-shadow: none;
+  }
+
+  .divider {
+    width: 1px;
+    height: 2.5rem;
+    background-color: rgba(255,255,255,0.2);
+  }
+
+  /* Animations */
+  @keyframes shadeShift {
+    0% { background-position: 0% 0%; }
+    50% { background-position: 0% 40%; }
+    100% { background-position: 0% 0%; }
+  }
+
+  @keyframes ping {
+    75%, 100% {
+      transform: scale(1.6);
+      opacity: 0;
+    }
+  }
+
+  @keyframes ripple-expand {
+    to {
+      transform: scale(4);
+      opacity: 0;
+    }
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in-up {
+    opacity: 0;
+    animation: fadeInUp 1s ease-out forwards;
+  }
+
+  .delay-100 { animation-delay: 100ms; }
+  .delay-300 { animation-delay: 300ms; }
+  .delay-500 { animation-delay: 500ms; }
