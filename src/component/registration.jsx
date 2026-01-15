@@ -291,7 +291,7 @@ function Registration() {
               </button>
             </form>
 
-            <p style={{ textAlign: 'center', marginTop: '24px', fontSize: '0.95rem', color: '#4b5563' }}>
+            <p style={{ textAlign: 'center', marginTop: '9px', fontSize: '0.95rem', color: '#4b5563' }}>
               Already a member? <Link to="/login" className="link-black-register">Login</Link>
             </p>
 

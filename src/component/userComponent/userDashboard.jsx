@@ -11,6 +11,7 @@ import UserSession from './UserSession'
 import Footer from '../uiComponent/footer'
 import Profile from '../CommonComponent/Profile';
 import UserReflections from './UserReflection'; 
+import Flashcards from './userFlashcards';
 // --- UTILITIES ---
 import generateSystemNotifications from '../../utils/generateSystemNotifications';
 // --- CONFIGURATION ---
@@ -56,7 +57,7 @@ const UserDashboard = () => {
       setCurrentUser(userData || { Name: 'Demo User', createdAt: new Date().toISOString() });
 
       // Merge User Progress
-      const mergedSessions = (sessionsData || []).map(session => {
+        const mergedSessions = (sessionsData || []).map(session => {
           const isCompleted = userData?.completedSessions?.includes(session._id);
           const specialAccess = userData?.specialAccess?.find(sa => sa.sessionId === session._id);
           const requests = userData?.accessRequests?.filter(r => r.sessionId === session._id) || [];
@@ -130,7 +131,7 @@ const UserDashboard = () => {
   };
 
   useEffect(() => { 
-    loadData(); 
+  loadData(); 
     
     // Optimized Polling: Only fetch notifications
     const interval = setInterval(() => {
@@ -210,6 +211,7 @@ const UserDashboard = () => {
         setSelectedReflectionSessionId(session._id);
         setActiveTab('reflections');
     };
+    
 
   if (loading) return <div style={{height:'100vh', display:'flex', alignItems:'center', justifyContent:'center', background:'#000', color:'#fff'}}><Loader2 className="animate-spin" /></div>;
 
@@ -225,6 +227,7 @@ const UserDashboard = () => {
             onProfileClick={() => setActiveTab('profile')}
             onDashboardClick={() => setActiveTab('dashboard')}
              onReflectionsClick={() => setActiveTab('reflections')}
+             onFlashcardsClick={() => setActiveTab('flashcards')}
             onLogout={() => { sessionStorage.clear(); window.location.href='/login';}} 
         />
         
@@ -265,7 +268,10 @@ const UserDashboard = () => {
                 <UserReflections 
                     sessions={sessions} 
                     user={currentUser} 
-                    initialSessionId={selectedReflectionSessionId}/>) :(
+                    initialSessionId={selectedReflectionSessionId}/>
+                  ):activeTab === 'flashcards' ? (
+                         <Flashcards/>
+                    ) :(
               <Profile 
                   user={currentUser} 
                   onUpdate={handleUpdateProfile} 

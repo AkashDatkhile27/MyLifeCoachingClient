@@ -68,9 +68,11 @@
     }
 
     .register-right {
-      height: 100%;
+      height: 100vh;
       overflow-y: auto;
       padding: 1rem 8%;
+     margin-top: 60px;
+
     }
   }
 
@@ -113,7 +115,7 @@
   
   .password-toggle-register { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: #9ca3af; cursor: pointer; background: none; border: none; }
   
-  .btn-submit-register { width: 100%; background-color: #000000; color: white; padding: 12px; border-radius: 6px; font-weight: 600; border: none; cursor: pointer; transition: background 0.2s; display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 0.95rem; margin-top: 20px; }
+  .btn-submit-register { width: 100%; background: linear-gradient(180deg, black, #9ca3af);color: white; padding: 12px; border-radius: 6px; font-weight: 600; border: none; cursor: pointer; transition: background 0.2s; display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 0.95rem; margin-top: 20px; }
   .btn-submit-register:hover { background-color: #333333; }
   .btn-submit-register:disabled { opacity: 0.7; cursor: not-allowed; }
   
@@ -124,7 +126,7 @@
   .link-black-register { color: #000000; text-decoration: none; font-weight: 600; cursor: pointer; }
   .link-black-register:hover { text-decoration: underline; }
   
-  .trust-badges-register { margin-top: 30px; display: flex; justify-content: center; gap: 20px; font-size: 0.75rem; color: #6b7280; flex-wrap: wrap; }
+  .trust-badges-register { margin-top: 5px; display: flex; justify-content: center; gap: 20px; font-size: 0.75rem; color: #6b7280; flex-wrap: wrap; }
   .trust-item-register { display: flex; align-items: center; gap: 6px; }
   
   .form-group-register { margin-bottom: 16px; }

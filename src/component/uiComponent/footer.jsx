@@ -11,7 +11,7 @@ function footer(){
       <footer className="site-footer">
         <div className="footer-container">
           <div className="footer-brand">
-            <h3>MeLifeCoaching</h3>
+            <h3 style={{color:'#fff;'}}> MeLifeCoaching</h3>
             <p className="footer-mission">Our mission is to empower individuals to break free from limitations and design a life of purpose, joy, and authentic connection.</p>
           </div>
           <div className="footer-links">

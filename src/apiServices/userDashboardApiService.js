@@ -24,9 +24,10 @@ const userApiService = {
 
 // --- USER DASHBOARD API CALLS ---
   userlogin: (data) => userApiService.request('/auth/login', 'POST', data),
+  verifyOtp: (data) => userApiService.request('/auth/verify-otp', 'POST', data),//login verification
   userRegister: (data) => userApiService.request('/auth/register', 'POST', data),
   fetchUser: (token) => userApiService.request('/auth/user', 'GET', null, token),
-  fetchSessions: (token) => userApiService.request('/course/sessions', 'GET', null, token),
+  fetchSessions: (token) => userApiService.request('/course/sessions', 'GET', null, token),//get all sessions 
   completeSession: (sessionId, token) =>    userApiService.request(`/course/sessions/${sessionId}/complete`, 'PUT', { isCompleted: true }, token),
   updateProfile: (data, token) => userApiService.request('/auth/update-profile', 'PUT', data, token),
   resetPassword: (data, token) => userApiService.request('/auth/reset-password', 'POST', data, token),

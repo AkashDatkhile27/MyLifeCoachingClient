@@ -30,8 +30,7 @@ const adminDashboardApiService = {
   createAdmin: (data, token) => adminDashboardApiService.request('/admin/create-admin', 'POST', data, token),
   deleteUser: (id, token) => adminDashboardApiService.request(`/admin/delete-users/${id}`, 'DELETE', null, token),
   // --- Updated Grant Access (Handles Boolean Grant) ---
-  grantAccess: (userId, sessionId, grant, token) => 
-    adminDashboardApiService.request(`/admin/users/${userId}/sessions/${sessionId}/grant`, 'PUT', { grant }, token),
+  grantAccess: (userId, sessionId, grant, token) =>adminDashboardApiService.request(`/admin/users/${userId}/sessions/${sessionId}/grant`, 'PUT', { grant }, token),
 
   // Sessions
   fetchSessions: (token) => adminDashboardApiService.request('/course/sessions', 'GET', null, token),

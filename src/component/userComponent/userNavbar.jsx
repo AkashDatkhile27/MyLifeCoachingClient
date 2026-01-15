@@ -1,13 +1,14 @@
 import React, { useState, useEffect,useRef } from 'react';
 
-import { Bell, ChevronDown, User, Home, LogOut, MessageSquare } from 'lucide-react';
+import { Bell, ChevronDown, User, Home, LogOut, MessageSquare,Zap } from 'lucide-react';
 import '../../css/dashboard.css'
 import NotificationDropdown from '../uiComponent/NotificationDropdown';
 import LogoImg from '../../assests/Logo.jpg';
 
 import * as utils from '../../utils/getUserSessionStatusAndInitials';
+import Flashcards from './userFlashcards';
 
-const UserNavbar =({ user, notifications = [], onProfileClick, onLogout, onDashboardClick,onReflectionsClick}) => {
+const UserNavbar =({ user, notifications = [], onProfileClick, onLogout, onDashboardClick,onReflectionsClick,onFlashcardsClick}) => {
   const [isNotifOpen, setIsNotifOpen] = useState(false);
   const notifRef = useRef(null);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
@@ -56,6 +57,10 @@ const UserNavbar =({ user, notifications = [], onProfileClick, onLogout, onDashb
             </div>
             <div className='notification-container'>
           <button className="notification-btn" onClick={() => {onDashboardClick(); }}><Home size={16} /></button></div>
+           {/* New Flashcards Option */}
+          <div className="nav-item" onClick={onFlashcardsClick} style={{cursor:'pointer', display:'flex', alignItems:'center', gap:6}}>
+             <Zap size={16}/> Flashcards
+          </div>
           <div className="profile-dropdown-container">
             <button  onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)} className="profile-btn">
               {safeUser.profilePicture ? (
@@ -74,6 +79,7 @@ const UserNavbar =({ user, notifications = [], onProfileClick, onLogout, onDashb
                 <button onClick={() => { setIsProfileDropdownOpen(false); onProfileClick(); }} className="dropdown-item"><User size={16} /> Profile</button>
                  <button onClick={() => { setIsProfileDropdownOpen(false); onReflectionsClick(); }} className="dropdown-item"><MessageSquare size={16}/> Daily Journal</button>
                 <button onClick={() => { setIsProfileDropdownOpen(false); onDashboardClick(); }} className='dropdown-item'><Home size={16} />Dashboard</button>
+                  <button onClick={() => { setIsProfileDropdownOpen(false); onFlashcardsClick(); }} className='dropdown-item'><Zap size={16} />Flashcard</button>
                 <button onClick={onLogout} className="dropdown-item danger"><LogOut size={16} /> Logout</button>
               </div>
             )}
@@ -112,6 +118,7 @@ const UserNavbar =({ user, notifications = [], onProfileClick, onLogout, onDashb
                 <button onClick={() => { setIsProfileDropdownOpen(false); onProfileClick(); }}  className="dropdown-item"><User size={16} /> Profile</button>
                  <button onClick={() => { setIsProfileDropdownOpen(false); onReflectionsClick(); }} className="dropdown-item"><MessageSquare size={16}/> Daily Journal</button>
                  <button onClick={() => { setIsProfileDropdownOpen(false); onDashboardClick(); }} className='dropdown-item'><Home size={16} />Dashboard</button>
+                 <button onClick={() => { setIsProfileDropdownOpen(false); onFlashcardsClick(); }} className='dropdown-item'><Zap size={16} />Flashcard</button>
                 <button onClick={onLogout} className="dropdown-item danger"><LogOut size={16} /> Logout</button>
               </div>
             )}
