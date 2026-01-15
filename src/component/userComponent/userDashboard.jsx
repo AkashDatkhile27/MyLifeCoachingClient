@@ -34,7 +34,6 @@ const UserDashboard = () => {
   const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard' or 'profile'
   // Toast State
   const [toast, setToast] = useState({ show: false, message: '' });
-  
   const latestNotificationRef = useRef(null);
 
   // Helper for displaying toasts easily
@@ -213,6 +212,9 @@ const UserDashboard = () => {
     };
     
 
+
+  
+
   if (loading) return <div style={{height:'100vh', display:'flex', alignItems:'center', justifyContent:'center', background:'#000', color:'#fff'}}><Loader2 className="animate-spin" /></div>;
 
   const completedSessionsCount = sessions.filter(s => s.isCompleted).length;
@@ -270,7 +272,7 @@ const UserDashboard = () => {
                     user={currentUser} 
                     initialSessionId={selectedReflectionSessionId}/>
                   ):activeTab === 'flashcards' ? (
-                         <Flashcards/>
+                        <Flashcards sessions={sessions} userCreatedAt={currentUser?.createdAt} />
                     ) :(
               <Profile 
                   user={currentUser} 

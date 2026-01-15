@@ -3,57 +3,47 @@ import { ChevronLeft, ChevronRight, RotateCcw, Lightbulb, Zap, Loader2, AlertCir
 import { useNavigate } from 'react-router-dom';
 import  '../../css/flashcards.css'
 import userApiService from '../../apiServices/userDashboardApiService';
-
-const MOCK_SESSIONS = [
-    { _id: 's1', dayNumber: 1, title: "Reviling", type: "One:One", isCompleted: true, contextPoints: ["Reviling what they consider themselves", "Blind spots"] },
-    { _id: 's2', dayNumber: 2, title: "Sparkling Noise", type: "Recorded", isCompleted: false, contextPoints: ["Realtime Navigation", "Clutter of thoughts"] },
-    { _id: 's3', dayNumber: 3, title: "Unreasonable Life", type: "One:One", isCompleted: false, contextPoints: ["Courageous life", "Past impacting Decisions"] }
-];
-const Flashcards =  () => {
-      const [sessions, setSessions] = useState([]);
-    const [completedSessionIds, setCompletedSessionIds] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-
-    const [activeSession, setActiveSession] = useState(null);
+const Flashcards =  ({ sessions = [], userCreatedAt }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isFlipped, setIsFlipped] = useState(false);
+    const [activeSession, setActiveSession] = useState(null);
 
-    // --- FETCH DATA FROM API ---
+    // --- TIME-BASED UNLOCK LOGIC (MOVED HERE) ---
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const token = sessionStorage.getItem('token');
-                // Fetch User (for progress) and Sessions (for content) in parallel
-                const [userData, sessionsData] = await Promise.all([
-                    userApiService.fetchUser(token),
-                    userApiService.fetchSessions(token)
-                ]);
-
-                setSessions(sessionsData || []);
-                setCompletedSessionIds(userData.completedSessions || []);
-            } catch (err) {
-                console.error("Flashcard Data Error:", err);
-                setError("Failed to load flashcard content.");
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchData();
-    }, []);
-
-    // --- DETERMINE ACTIVE SESSION ---
-    useEffect(() => {
-        if (sessions.length > 0) {
+        if (sessions.length > 0 && userCreatedAt) {
             const sorted = [...sessions].sort((a,b) => a.dayNumber - b.dayNumber);
-            const nextSession = sorted.find(s => !completedSessionIds.includes(s._id)) || sorted[sorted.length - 1];
-            setActiveSession(nextSession);
-        }
-    }, [sessions, completedSessionIds]);
+            const now = new Date();
+            
+            // Normalize join date to start of the day (00:00:00)
+            const joinDate = new Date(userCreatedAt);
+            const startOfJoinDate = new Date(joinDate);
+            startOfJoinDate.setHours(0, 0, 0, 0);
 
-    if (loading) return <div style={{height:'100%', display:'flex', alignItems:'center', justifyContent:'center'}}><Loader2 className="animate-spin"/></div>;
-    if (error) return <div style={{textAlign:'center', padding:40}}><AlertCircle size={40} style={{margin:'0 auto 10px', color:'#ef4444'}}/><p>{error}</p></div>;
-    if (!activeSession) return <div style={{textAlign:'center', padding:40}}>No sessions available.</div>;
+            console.log("Current Time:", now);
+            console.log("Join Date (Normalized 00:00):", startOfJoinDate);
+
+            // Unlock logic: Unlock at 00:00 AM of the specific day
+            // Day 1 unlocks at 00:00 AM of Join Date
+            // Day 2 unlocks at 00:00 AM of (Join Date + 1 day)
+            const currentSession = sorted.reduce((latest, session) => {
+                const unlockDate = new Date(startOfJoinDate.getTime() + (session.dayNumber - 1) * 24 * 60 * 60 * 1000);
+                if (now >= unlockDate) {
+                    return session;
+                }
+                return latest;
+            }, sorted[0]); 
+
+            setActiveSession(currentSession);
+        }
+    }, [sessions, userCreatedAt]);
+
+    // Reset card state when session changes
+    useEffect(() => {
+        setCurrentIndex(0);
+        setIsFlipped(false);
+    }, [activeSession?._id]);
+
+    if (!activeSession) return <div style={{textAlign:'center', padding:40}}>Loading active session...</div>;
 
     const points = activeSession.contextPoints || ["No flashcards available"];
     const progress = ((currentIndex + 1) / points.length) * 100;
@@ -76,18 +66,18 @@ const Flashcards =  () => {
         <div className="flashcard-page">
             <div className="fc-header">
                 <h1 className="fc-title">Daily Flashcards</h1>
-                <p className="fc-subtitle">Focus for <strong>{activeSession.title}</strong></p>
+                <p className="fc-subtitle">
+                    Current Focus: <span style={{color:'#fff', fontWeight:'bold'}}>{activeSession.title}</span> (Day {activeSession.dayNumber})
+                </p>
             </div>
             
             <div className="fc-card-container" onClick={() => setIsFlipped(!isFlipped)}>
                 <div className={`fc-flashcard ${isFlipped ? 'flipped' : ''}`}>
-                    {/* Front */}
-                    <div className="fc-card-face card-front">
+                    <div className="fc-card-face fc-card-front">
                         <div className="fc-card-label"><Lightbulb size={16}/> Concept {currentIndex + 1}</div>
                         <div className="fc-card-text">Tap to reveal insight</div>
                         <div style={{marginTop:'auto', fontSize:'0.8rem', opacity:0.5}}>Click to flip</div>
                     </div>
-                    {/* Back */}
                     <div className="fc-card-face fc-card-back">
                         <div className="fc-card-label" style={{color:'#666'}}><Zap size={16}/> Key Learning</div>
                         <div className="fc-card-text">"{points[currentIndex]}"</div>
@@ -97,7 +87,7 @@ const Flashcards =  () => {
 
             <div className="fc-controls">
                 <button className="fc-ctrl-btn" onClick={handlePrev} disabled={currentIndex === 0}><ChevronLeft size={24}/></button>
-                <div className="fc-progress-bar"><div className="fc-progress-fill" style={{ width: `${progress}%` }}></div></div>
+                <div className="fc-progress-bar"><div className="progress-fill" style={{ width: `${progress}%` }}></div></div>
                 <button className="fc-ctrl-btn" onClick={handleNext} disabled={currentIndex === points.length - 1}><ChevronRight size={24}/></button>
             </div>
             
