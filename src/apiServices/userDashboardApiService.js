@@ -30,7 +30,7 @@ const userApiService = {
   completeSession: (sessionId, token) =>    userApiService.request(`/course/sessions/${sessionId}/complete`, 'PUT', { isCompleted: true }, token),
   updateProfile: (data, token) => userApiService.request('/auth/update-profile', 'PUT', data, token),
   resetPassword: (data, token) => userApiService.request('/auth/reset-password', 'POST', data, token),
-  // 
+  // reset password
   resetPasswordWithEmailLink: (data, token) => userApiService.request('/auth/reset-password-with-link', 'POST', data, token),
   forgotPassword: (email) => userApiService.request('/auth/forgot-password', 'POST', { email }),
   
@@ -40,6 +40,12 @@ const userApiService = {
   //--- REFLECTION ENDPOINTS ---
   fetchReflections: (token) => userApiService.request('/auth/fetch-reflections', 'GET', null, token),
   createOrUpdateReflection: (data, token) => userApiService.request('/auth/create-reflections', 'POST', data, token),
+  //---Payment EndPoints---
+  createPaymentOrder: (token) => userApiService.request('/auth/create-order', 'POST', null, token),
+  // Calls the backend to generate Razorpay Order ID for 199/-
+  createSessionOrder: () => userApiService.request('/auth/create-session-order', 'POST'),
+  // Calls the backend to send email to admin
+  notifyAdminBooking: (data) => userApiService.request('/auth/notify-admin-booking', 'POST', data),
     
 };
 

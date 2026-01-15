@@ -30,7 +30,7 @@ function footer(){
           </div>
           <div className="footer-connect">
             <h4 className="footer-heading">Connect</h4>
-            <div className="social-links">
+            <div className="social-links-footer">
               <Twitter className="social-icon" size={24} />
               <Instagram className="social-icon" size={24} />
               <Linkedin className="social-icon" size={24} />
@@ -39,7 +39,7 @@ function footer(){
         </div>
         <div className="footer-bottom">
           <span>© 2025 MeLifeCoaching. All rights reserved.</span>
-          <span>Designed for Impact</span>
+          <span>Designed for Impact (Virtuosos LLC)</span>
         </div>
       </footer>
    </>

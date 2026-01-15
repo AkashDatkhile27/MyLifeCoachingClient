@@ -24,28 +24,28 @@ const Contact = () => {
         <div className="contact-card">
           <h2 style={{fontSize:'1.5rem', fontWeight:'700', marginBottom:'1.5rem', color:'#111'}}>Send me a message</h2>
           <form onSubmit={(e) => e.preventDefault()}>
-            <div className="form-group">
-              <label className="form-label">Full Name</label>
-              <input type="text" className="form-input" placeholder="Enter your full name" />
+            <div className="form-group-contact">
+              <label className="form-label-contact">Full Name</label>
+              <input type="text" className="form-input-contact" placeholder="Enter your full name" />
             </div>
-            <div className="form-group">
-              <label className="form-label">Email Address</label>
-              <input type="email" className="form-input" placeholder="Enter your email" />
+            <div className="form-group-contact">
+              <label className="form-label-contact">Email Address</label>
+              <input type="email" className="form-input-contact" placeholder="Enter your email" />
             </div>
-            <div className="form-group">
-              <label className="form-label">Subject</label>
-              <select className="form-select">
+            <div className="form-group-contact">
+              <label className="form-label-contact">Subject</label>
+              <select className="form-select-contact">
                 <option>General Inquiry</option>
                 <option>Course Support</option>
                 <option>Personal Coaching</option>
                 <option>Other</option>
               </select>
             </div>
-            <div className="form-group">
-              <label className="form-label">Message</label>
-              <textarea className="form-textarea" placeholder="Share your thoughts, questions, or how I can help you..."></textarea>
+            <div className="form-group-contact">
+              <label className="form-label-contact">Message</label>
+              <textarea className="form-textarea-contact" placeholder="Share your thoughts, questions, or how I can help you..."></textarea>
             </div>
-            <button className="btn-submit">
+            <button className="btn-submit-contact">
               <Send size={18} /> Send Message
             </button>
           </form>

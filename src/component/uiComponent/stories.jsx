@@ -24,7 +24,7 @@ function Stories() {
     <section className="section-stories">
       <style>[styles]</style>
       <div className="section-title-wrapper">
-        <h2 className="section-title">Stories of Change</h2>
+        <h2 className="section-title">What people are saying </h2>
       </div>
       
       <div className="stories-wrapper">

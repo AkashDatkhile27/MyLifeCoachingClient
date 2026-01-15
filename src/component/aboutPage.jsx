@@ -70,12 +70,13 @@ const AboutSection = () => {
               <p className="chapter-text">
                 I began seeking answers, not just to heal, but to understand why I am the way I am. Coming from a middle class family, I couldn’t always find answers at home. But that curiosity never left me.
               </p>
+                <p className="chapter-text">
+                In 6th grade, a life-changing teacher named Bhunje Sir introduced me to the lives and thoughts of great thinkers like Gandhi, Shaw, Einstein, and Socrates. From him, I learned something far beyond academics — I began learning how to live.
+              </p>
               <p className="chapter-text">
                 Somewhere along the way, I discovered the writings of Marathi literary legend Va Pu Kale — and his views on life, relationships, work, and philosophy struck something deep within me.
               </p>
-              <p className="chapter-text">
-                In 6th grade, a life-changing teacher named Bhunje Sir introduced me to the lives and thoughts of great thinkers like Gandhi, Shaw, Einstein, and Socrates. From him, I learned something far beyond academics — I began learning how to live.
-              </p>
+            
             </div>
           </div>
 
@@ -151,7 +152,7 @@ const AboutSection = () => {
                  But life wasn't done testing me. My father passed away suddenly. The ground beneath my feet crumbled. A relationship that I thought would last forever ended in separation.
                </p>
                <p className="chapter-text">
-                 I was back in the fog. But this time, I had tools. The philosophy I had absorbed wasn't just theory anymore—it was survival.
+                I was back in the fog. But this time, I had tools. The philosophy I had absorbed wasn't just theory anymore—it was lived practice
                </p>
                <p className="chapter-text" style={{fontWeight: 700, fontSize: '1.25rem', marginTop: '2rem'}}>
                  I used the very principles that once saved me to rebuild myself. Slowly. Painfully. Deliberately.

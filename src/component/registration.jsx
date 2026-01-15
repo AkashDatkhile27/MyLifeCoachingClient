@@ -5,6 +5,7 @@ import '../css/registration.css';
 import NavBar from './uiComponent/navBar';
 import LogoImg from '../assests/Logo.jpg';
 import { API_URL } from '../config';
+import userApiService from '../apiServices/userDashboardApiService';
 function Registration() {
    const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -23,66 +24,114 @@ function Registration() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+ // --- RAZORPAY INTEGRATION ---
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
+  const handlePaymentAndRegister = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setStatus(null);
 
-    // 1. Prepare Payload (Trim inputs)
-    const payload = {
-      Name: formData.Name.trim(),
-      email: formData.email.trim(),
-      phone: formData.phone.trim(),
-      password: formData.password.trim()
-    };
+    if (!formData.Name || !formData.email || !formData.password || !formData.phone) {
+        setStatus({ type: 'error', msg: 'Please fill in all fields' });
+        setIsLoading(false);
+        return;
+    }
+
+    const isScriptLoaded = await loadRazorpayScript();
+    if (!isScriptLoaded) {
+      setStatus({ type: 'error', msg: 'Razorpay SDK failed to load. Check your connection.' });
+      setIsLoading(false);
+      return;
+    }
 
     try {
-      // 2. Send data to Node.js Backend
-      const response = await fetch(`${API_URL}/auth/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      // 1. Create Order via userApiService
+      // Note: Passing null token as registration/payment initiation is usually public
+      const orderData = await userApiService.createPaymentOrder(null);
+
+      // 2. Configure Razorpay Options
+      const options = {
+        key: orderData.key_id, 
+        amount: orderData.amount,
+        currency: orderData.currency,
+        app:"MyLifeCoaching",
+        name: "MyLifeCoaching",
+        description: "15-Day Transformation Course",
+        // image: LogoImg, 
+        order_id: orderData.order_id,
+        handler: async function (response) {
+          // 3. On Payment Success -> Register User
+          await registerUser({
+            ...formData,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_signature: response.razorpay_signature
+          });
         },
-        body: JSON.stringify(payload),
-      });
+        prefill: {
+          name: formData.Name,
+          email: formData.email,
+          contact: formData.phone
+        },
+         notes: {
+          customer_name: formData.Name,
+          customer_email: formData.email,
+          customer_phone: formData.phone
+        },
+        theme: {
+          color: "#000000"
+        },
+        modal: {
+          ondismiss: function() {
+            setIsLoading(false);
+            setStatus({ type: 'error', msg: 'Payment cancelled. Please try again.' });
+          }
+        }
+      };
 
-      // FIX: Handle non-JSON responses (like "Server Error") safely
-      const responseText = await response.text();
-      let data;
-      
-      try {
-        data = JSON.parse(responseText);
-      } catch (err) {
-        // If parsing fails, use the raw text as the error message
-        throw new Error(responseText || 'Server returned an invalid response');
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+
+    } catch (error) {
+      console.error("Payment Init Error:", error);
+      // Fallback message for demo environment if server is unreachable
+      if (API_URL.includes('localhost') && error.message.includes('Failed to fetch')) {
+          setStatus({ type: 'error', msg: 'Backend unreachable on localhost:5000. Start server.' });
+      } else {
+          setStatus({ type: 'error', msg: error.message || 'Payment initialization failed' });
       }
+      setIsLoading(false);
+    }
+  };
 
-      if (!response.ok) {
-        throw new Error(data.message || 'Registration failed');
-      }
-
-      // 3. Handle Success (Auto-Login based on Backend Token)
-      setStatus({ type: 'success', msg: 'Registration & Payment successful! Redirecting to dashboard...' });
+  const registerUser = async (payload) => {
+    try {
+      // Use userApiService for registration
+      const data = await userApiService.userRegister(payload);
+      // Success
+      setStatus({ type: 'success', msg: 'Payment successful! Creating your account...' });
       
-      // Store Token & User Data (Backend returns these on successful register)
       sessionStorage.setItem('token', data.token);
       sessionStorage.setItem('user', JSON.stringify(data.user));
       
-      // Clear form
       setFormData({ Name: '', email: '', phone: '', password: '' });
       
-      // 5. Redirect to Dashboard after a short delay
       setTimeout(() => {
         navigate('/dashboard');
       }, 1500);
 
     } catch (error) {
       console.error('Registration Error:', error);
-      // Handle network errors specifically
-      const errorMsg = error.message === 'Failed to fetch' 
-        ? 'Unable to connect to server. Is the backend running?' 
-        : error.message;
-      setStatus({ type: 'error', msg: errorMsg });
+      setStatus({ type: 'error', msg: `Registration failed: ${error.message}. If money was deducted, contact support.` });
     } finally {
       setIsLoading(false);
     }
@@ -90,14 +139,13 @@ function Registration() {
   return (
     <>
       <NavBar />
-      <div className="register-page">
+       <div className="register-page">
         <div className="register-container">
           
           {/* Left Side */}
           <div className="register-left">
             <div className="register-logo-box">
-            <img src={LogoImg} alt="logo" className='logoImg'/>
-           
+              <img src={LogoImg} alt="logo" className='logoImg'/>
             </div>
             <h2 className="reg-headline">Begin Your Journey</h2>
             <p className="reg-sub">
@@ -115,21 +163,21 @@ function Registration() {
               <p className="reg-form-sub">Start your transformation journey today</p>
             </div>
 
-            {/* Payment Summary - Using inline styles to match aesthetic as specific class wasn't in CSS
+            {/* Payment Summary */}
             <div style={{ marginBottom: '24px', padding: '16px', backgroundColor: '#f9fafb', borderRadius: '8px', border: '1px solid #e5e7eb' }}>
                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.9rem', color:'#4b5563' }}>
                  <span>15-Day Course Access</span>
-                 <span style={{ fontWeight: 'bold', color: '#111' }}>$199.00</span>
+                 <span style={{ fontWeight: 'bold', color: '#111' }}>₹25000</span>
                </div>
                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: '#10b981' }}>
                  <span style={{display: 'flex', alignItems: 'center', gap: '4px'}}><CheckCircle size={14}/> Registration Fee</span>
                  <span>Included</span>
                </div>
-               <div style={{ borderTop: '1px solid #e5e7eb', marginTop: '12px', paddingTop: '12px', display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', fontSize: '1.1rem' }}>
+               <div style={{color: '#111', borderTop: '1px solid #e5e7eb', marginTop: '12px', paddingTop: '12px', display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', fontSize: '1.1rem' }}>
                  <span>Total Due Today</span>
-                 <span>$199.00</span>
+                 <span>₹25000</span>
                </div>
-            </div> */}
+            </div>
 
             {status && (
               <div style={{
@@ -148,7 +196,7 @@ function Registration() {
               </div>
             )}
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handlePaymentAndRegister}>
               <div className="form-group-register">
                 <label className="form-label-register">Full Name</label>
                 <div className="input-with-icon-register">
@@ -233,11 +281,11 @@ function Registration() {
               <button className="btn-submit-register" disabled={isLoading}>
                 {isLoading ? (
                   <>
-                    <Loader2 size={18} className="animate-spin" /> Processing Payment...
+                    <Loader2 size={18} className="animate-spin" /> Processing...
                   </>
                 ) : (
                   <>
-                    Pay $199 & Join <ArrowRight size={18} />
+                    Pay ₹25000 & Join <ArrowRight size={18} />
                   </>
                 )}
               </button>

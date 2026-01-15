@@ -71,12 +71,12 @@ function HomePage() {
 
       {/* The Pillars of Change Section */}
       <section className="section-why">
-        <h2 className="section-title">The Pillars of Change</h2>
+        <h2 className="section-title">The Pillars of Clarity </h2>
         <div className="features-grid">
           <div className="feature-card">
             <div className="feature-icon-wrapper"><Brain size={32} /></div>
             <h3 className="feature-title">Mental Clarity</h3>
-            <p className="feature-desc">Stop overthinking. Gain the tools to silence the noise.</p>
+            <p className="feature-desc">Master overthinking. Gain the tools to manage the Noise </p>
           </div>
           <div className="feature-card">
             <div className="feature-icon-wrapper"><Heart size={32} /></div>

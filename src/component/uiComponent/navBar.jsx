@@ -22,7 +22,7 @@ function NavBar() {
           {/* LEFT: Logo - Links to Home "/" */}
           <Link to="/" className="logo" onClick={closeMenu}>
             <img src={LogoImg} alt="logo" className='logoImg'/>
-            <span style={{ color: '#000000' }}> MeLifeCoaching</span>
+            <span style={{ color: '#64748b' }}> MeLifeCoaching</span>
           </Link>
 
           {/* RIGHT: Desktop Nav Links */}

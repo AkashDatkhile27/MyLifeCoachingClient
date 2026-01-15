@@ -53,7 +53,9 @@ html.lenis {
   position: relative;
 }
 
-
+h3{
+  color: #000;
+}
 /* --- PHILOSOPHY SECTION --- */
 .section-philosophy {
   padding: 80px 24px 100px;
@@ -206,6 +208,7 @@ html.lenis {
   font-size: 1.25rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
+  color:#000;
 }
 
 .feature-desc {

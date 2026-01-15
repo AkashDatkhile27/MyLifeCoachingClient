@@ -5,7 +5,7 @@ const HeroSection2 = () => {
 
   return (
    <>
-    <div className="landing-container">
+    <div className="landing-container_h2">
         {/* Background Wrapper */}
         <div className="bg-wrapper">
           <img 
