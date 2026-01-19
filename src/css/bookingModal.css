@@ -1,58 +1,74 @@
-.booking-modal-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px);
-    display: flex; justify-content: center; align-items: center;
-    z-index: 9999; animation: fadeIn 0.2s ease-out;
-  }
-  .booking-modal-content {
-    background-color: #ffffff; width: 90%; max-width: 480px;
-    border-radius: 24px; padding: 32px; position: relative;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    display: flex; flex-direction: column;
-  }
-  .booking-modal-close {
-    position: absolute; top: 20px; right: 20px; background: #f3f4f6;
-    border: none; border-radius: 50%; width: 32px; height: 32px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; color: #4b5563; transition: all 0.2s;
-  }
+.booking-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px); display: flex; justify-content: center; align-items: center; z-index: 9999; animation: fadeIn 0.2s ease-out; }
+  .booking-modal-content { background-color: #ffffff; width: 90%; max-width: 480px; border-radius: 24px; padding: 32px; position: relative; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; }
+  .booking-modal-close { position: absolute; top: 20px; right: 20px; background: #f3f4f6; border: none; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #4b5563; transition: all 0.2s; }
   .booking-modal-close:hover { background: #e5e7eb; color: #000; }
   .booking-modal-header { text-align: center; margin-bottom: 24px; }
   .booking-modal-title { font-family: serif; font-size: 1.75rem; font-weight: 700; color: #111; margin-bottom: 8px; }
   .booking-modal-sub { color: #6b7280; font-size: 0.95rem; line-height: 1.5; }
-  .booking-summary {
-    background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px;
-    padding: 16px; margin-bottom: 24px;
-  }
+  .booking-summary { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; margin-bottom: 24px; }
   .booking-summary-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; margin-bottom: 4px; }
   .booking-summary-label { color: #6b7280; }
   .booking-summary-value { font-weight: 600; color: #111; }
   .booking-summary-total { margin-top: 12px; padding-top: 12px; border-top: 1px solid #e5e7eb; font-size: 1.1rem; }
-  .booking-form-group { margin-bottom: 16px; }
+  
+  .booking-form-group { margin-bottom: 20px; position: relative; }
   .booking-form-label { display: block; font-size: 0.85rem; font-weight: 600; color: #374151; margin-bottom: 6px; }
   .booking-input-wrapper { position: relative; }
-  .booking-input-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #9ca3af; pointer-events: none; }
-  .booking-form-input {
-    width: 100%; padding: 12px 12px 12px 40px; border: 1px solid #d1d5db;
-    border-radius: 10px; font-size: 0.95rem; color: #111;
-    transition: border-color 0.2s, box-shadow 0.2s;
+  .booking-input-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #9ca3af; pointer-events: none; transition: color 0.2s; }
+  
+  .booking-form-input { 
+    width: 100%; padding: 12px 12px 12px 40px; border: 1px solid #d1d5db; 
+    border-radius: 10px; font-size: 0.95rem; color: #111; 
+    transition: border-color 0.2s, box-shadow 0.2s; 
   }
   .booking-form-input:focus { outline: none; border-color: #000; box-shadow: 0 0 0 3px rgba(0,0,0,0.05); }
-  .booking-submit-btn {
-    width: 100%; background-color: #000; color: #fff; padding: 14px;
-    border-radius: 99px; font-size: 1rem; font-weight: 600; border: none;
-    cursor: pointer; transition: transform 0.1s, background-color 0.2s;
-    display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 8px;
+  .booking-form-input:disabled { background-color: #f3f4f6; color: #9ca3af; cursor: not-allowed; }
+
+  /* Error State Styles */
+  .booking-form-input.error { border-color: #ef4444; }
+  .booking-form-input.error:focus { box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1); }
+  .booking-input-icon.error { color: #ef4444; }
+
+  /* OTP Styles */
+  .otp-action-btn {
+    position: absolute; right: 8px; top: 8px; bottom: 8px;
+    background: #000; color: white; border: none; border-radius: 6px;
+    padding: 0 12px; font-size: 0.75rem; font-weight: 600; cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .otp-action-btn:disabled { background: #ccc; cursor: not-allowed; opacity: 0.7; }
+  
+  .otp-verify-row { display: flex; gap: 8px; margin-top: 10px; animation: fadeIn 0.2s; }
+  .otp-verify-input { flex: 1; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 0.95rem; }
+  .otp-confirm-btn { background: #10b981; color: white; border: none; border-radius: 8px; padding: 0 16px; font-size: 0.85rem; font-weight: 600; cursor: pointer; }
+  .otp-confirm-btn:disabled { background: #ccc; cursor: not-allowed; }
+
+  /* Floating Error Tooltip */
+  .error-tooltip {
+    position: absolute; top: 100%; left: 0; margin-top: 6px;
+    background-color: #ef4444; color: white; padding: 6px 12px; border-radius: 6px;
+    font-size: 0.75rem; font-weight: 500; z-index: 10;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); animation: fadeInTooltip 0.2s ease-out;
+  }
+  .error-tooltip::before {
+    content: ''; position: absolute; top: -4px; left: 16px; width: 8px; height: 8px;
+    background-color: #ef4444; transform: rotate(45deg);
+  }
+
+  .booking-submit-btn { 
+    width: 100%; background-color: #000; color: #fff; padding: 14px; 
+    border-radius: 99px; font-size: 1rem; font-weight: 600; border: none; 
+    cursor: pointer; transition: transform 0.1s, background-color 0.2s; 
+    display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 8px; 
   }
   .booking-submit-btn:hover { background-color: #1f2937; }
   .booking-submit-btn:active { transform: scale(0.98); }
-  .booking-submit-btn:disabled { opacity: 0.7; cursor: not-allowed; }
-  .booking-status-message {
-    margin-bottom: 20px; padding: 12px; border-radius: 8px; font-size: 0.9rem;
-    display: flex; align-items: center; gap: 8px; justify-content: center;
-  }
-  .booking-status-error { background: #fef2f2; color: #dc2626; border: 1px solid #fee2e2; }
-  .booking-status-success { background: #ecfdf5; color: #059669; border: 1px solid #d1fae5; }
+  .booking-submit-btn:disabled { opacity: 0.7; cursor: not-allowed; background-color: #555; }
+  
+  .status-message { margin-bottom: 20px; padding: 12px; border-radius: 8px; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; justify-content: center; }
+  .status-error { background: #fef2f2; color: #dc2626; border: 1px solid #fee2e2; }
+  .status-success { background: #ecfdf5; color: #059669; border: 1px solid #d1fae5; }
+  
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
   @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeInTooltip { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }

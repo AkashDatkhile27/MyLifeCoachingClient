@@ -1,7 +1,7 @@
 import React, { useState,useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import LogoImg from '../assests/Logo.jpg';
-import { Infinity, Mail, Lock, EyeOff, Eye, Loader2, ArrowLeft, ShieldCheck } from 'lucide-react';
+import { Infinity, Mail, Lock, EyeOff, Eye, Loader2, ArrowLeft, ShieldCheck, AlertCircle} from 'lucide-react';
 import '../css/login.css';
 import NavBar from './uiComponent/navBar';
 import userApiService from '../apiServices/userDashboardApiService';
@@ -9,14 +9,15 @@ import userApiService from '../apiServices/userDashboardApiService';
 
 
 function Login() {
-  const navigate = useNavigate();
+ const navigate = useNavigate();
   
   // --- STATE ---
   const [step, setStep] = useState('credentials'); // 'credentials' | 'otp'
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isResending, setIsResending] = useState(false); // Track resend status separately
-  const [status, setStatus] = useState(null);
+  const [isResending, setIsResending] = useState(false);
+  const [status, setStatus] = useState(null); // General status messages (success/global error)
+  const [errors, setErrors] = useState({}); // Field-specific errors
   
   // Login Data
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -28,7 +29,15 @@ function Login() {
 
   // --- HANDLERS ---
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    
+    // Clear specific field error when user types
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: null }));
+    }
+    // Clear global error if any
+    if (status?.type === 'error') setStatus(null);
   };
 
   // OTP Input Logic
@@ -37,6 +46,11 @@ function Login() {
     let newArr = [...otp];
     newArr[index] = value;
     setOtp(newArr);
+    
+    // Clear OTP error when typing
+    if (errors.otp) setErrors(prev => ({ ...prev, otp: null }));
+    if (status?.type === 'error') setStatus(null);
+
     if (value && index < 5) {
         otpBoxReference.current[index + 1]?.focus();
     }
@@ -67,8 +81,28 @@ function Login() {
   // Step 1: Validate Credentials
   const userLogin = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
+    setErrors({});
     setStatus(null);
+    
+    // Validation
+    let hasError = false;
+    const newErrors = {};
+
+    if (!formData.email.trim()) {
+        newErrors.email = "Please fill out this field.";
+        hasError = true;
+    }
+    if (!formData.password.trim()) {
+        newErrors.password = "Please fill out this field.";
+        hasError = true;
+    }
+
+    if (hasError) {
+        setErrors(newErrors);
+        return;
+    }
+
+    setIsLoading(true);
 
     try {
       const response = await userApiService.userlogin({
@@ -88,6 +122,8 @@ function Login() {
       }
     } catch (error) {
       console.error('Login Error:', error);
+      // If the backend returns field-specific errors, map them here.
+      // Assuming a generic error message for now, but displayed globally.
       setStatus({ type: 'error', msg: error.message || 'Credentials are invalid.' });
     } finally {
       setIsLoading(false);
@@ -97,14 +133,16 @@ function Login() {
   // Step 2: Verify OTP
   const verifyOtp = async (e) => {
     e.preventDefault();
+    setErrors({});
+    setStatus(null);
+
     const otpValue = otp.join("");
     if (otpValue.length !== 6) {
-        setStatus({ type: 'error', msg: 'Please enter a valid 6-digit OTP.' });
+        setErrors({ otp: "Please enter a valid 6-digit OTP." });
         return;
     }
 
     setIsLoading(true);
-    setStatus(null);
 
     try {
         const response = await userApiService.verifyOtp({ token: tempToken, otp: otpValue });
@@ -123,19 +161,18 @@ function Login() {
     setIsResending(true);
     setStatus(null);
     try {
-        // Re-trigger login to generate new OTP using stored credentials
         const response = await userApiService.userlogin({
             email: formData.email.trim(),
             password: formData.password.trim()
         });
         
         if (response.requiresOtp) {
-             setTempToken(response.tempToken); // Update token if rotated
+             setTempToken(response.tempToken);
              setStatus({ type: 'success', msg: 'New OTP has been sent!' });
              setTimeout(() => setStatus(null), 3000);
         }
     } catch (error) {
-        setStatus({ type: 'error', msg: 'Failed to resend OTP.' });
+        setStatus({ type: 'error', msg: error.message || 'Failed to resend OTP.' });
     } finally {
         setIsLoading(false);
         setIsResending(false);
@@ -144,15 +181,16 @@ function Login() {
 
   return (
     <>
+      <style>[styles]</style>
       <NavBar/>
 
-      <div className="login-page">
+     <div className="login-page">
         <div className="login-container">
           
-        {/* Left Side */}
+          {/* Left Side (Black) */}
           <div className="login-left">
             <div className="login-logo-box">
-              <img src={LogoImg} alt="Logo" style={{width:'60px', height:'60px', objectFit:'cover', borderRadius:'10px'}} />
+              <img src={LogoImg} alt="Logo" className='logoImg-login' />
             </div>
             <h2 className="login-headline">
                 {step === 'otp' ? 'Security Check' : 'Welcome Back'}
@@ -166,11 +204,11 @@ function Login() {
             </div>
           </div>
           
-          {/* Right Side */}
+          {/* Right Side (White Form) */}
           <div className="login-right">
             
             {step === 'otp' && (
-                <button className="btn-text" onClick={() => { setStep('credentials'); setStatus(null); setOtp(new Array(6).fill("")); }}>
+                <button className="btn-text" onClick={() => { setStep('credentials'); setStatus(null); setOtp(new Array(6).fill("")); setErrors({}); }}>
                     <ArrowLeft size={16}/> Back
                 </button>
             )}
@@ -200,29 +238,33 @@ function Login() {
             
             {/* FORM 1: CREDENTIALS */}
             {step === 'credentials' && (
-                <form onSubmit={userLogin}>
+                <form onSubmit={userLogin} noValidate>
                 <div className="formgroup-login">
                     <label className="formlabel-login">Email</label>
                     <div className="inputwithicon-login">
-                    <Mail size={18} className="inputicon-login" />
-                    <input 
-                        type="email" name="email" value={formData.email} onChange={handleChange}
-                        className="forminput-login forminputpadded-login" placeholder="Email" required 
-                    />
+                        <Mail size={18} className={`inputicon-login ${errors.email ? 'error' : ''}`} />
+                        <input 
+                            type="email" name="email" value={formData.email} onChange={handleChange}
+                            className={`forminput-login forminputpadded-login ${errors.email ? 'error' : ''}`}
+                            placeholder="Email" required 
+                        />
+                        {errors.email && <div className="error-tooltip-login">{errors.email}</div>}
                     </div>
                 </div>
                 
                 <div className="formgroup-login">
                     <label className="formlabel-login">Password</label>
                     <div className="inputwithicon-login">
-                    <Lock size={18} className="inputicon-login" />
-                    <input 
-                        type={showPassword ? "text" : "password"} name="password" value={formData.password} onChange={handleChange}
-                        className="forminput-login forminputpadded-login" placeholder="Password" required 
-                    />
-                    <button type="button" className="password-toggle-login" onClick={() => setShowPassword(!showPassword)}>
-                        {showPassword ? <EyeOff size={18}/> : <Eye size={18}/>}
-                    </button>
+                        <Lock size={18} className={`inputicon-login ${errors.password ? 'error' : ''}`} />
+                        <input 
+                            type={showPassword ? "text" : "password"} name="password" value={formData.password} onChange={handleChange}
+                            className={`forminput-login forminputpadded-login ${errors.password ? 'error' : ''}`}
+                            placeholder="Password" required 
+                        />
+                        <button type="button" className="password-toggle-login" onClick={() => setShowPassword(!showPassword)}>
+                            {showPassword ? <EyeOff size={18}/> : <Eye size={18}/>}
+                        </button>
+                        {errors.password && <div className="error-tooltip-login">{errors.password}</div>}
                     </div>
                 </div>
                 
@@ -242,7 +284,7 @@ function Login() {
             {/* FORM 2: OTP */}
             {step === 'otp' && (
                 <form onSubmit={verifyOtp}>
-                    <div className="otp-input-container">
+                    <div className="otp-input-container" style={{position:'relative'}}>
                         {otp.map((digit, index) => (
                             <input
                                 key={index}
@@ -252,10 +294,11 @@ function Login() {
                                 onChange={(e) => handleOtpChange(e.target.value, index)}
                                 onKeyDown={(e) => handleOtpBackspace(e, index)}
                                 ref={(reference) => (otpBoxReference.current[index] = reference)}
-                                className="otp-box"
+                                className={`otp-box ${errors.otp ? 'error' : ''}`}
                                 autoFocus={index === 0}
                             />
                         ))}
+                        {errors.otp && <div className="error-tooltip-login" style={{top: '55px', left: '50%', transform: 'translateX(-50%)'}}>{errors.otp}</div>}
                     </div>
 
                     <div style={{textAlign:'center', marginBottom:'24px', fontSize:'0.9rem', color:'#6b7280'}}>
@@ -266,11 +309,7 @@ function Login() {
                     </div>
 
                     <button className="btnsubmit-login" disabled={isLoading}>
-                        {isLoading ? (
-                            <><Loader2 size={18} className="animate-spin" /> {isResending ? 'Sending OTP...' : 'Verifying OTP...'}</>
-                        ) : (
-                            'Verify & Login'
-                        )}
+                        {isLoading ? <><Loader2 size={18} className="animate-spin" /> {isResending ? 'Sending OTP...' : 'Verifying OTP...'}</> : 'Verify & Login'}
                     </button>
                 </form>
             )}
@@ -285,6 +324,7 @@ function Login() {
       </div>
     </>
   )
+
 }
 
 export default Login;

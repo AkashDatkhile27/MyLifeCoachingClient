@@ -32,7 +32,7 @@ const AdminNavbar = ({ user, notifications = [], adminData, onLogout, onProfileC
       <div className="nav-content">
         <div className="logo">
             <img src={LogoImg} alt="logo" className='logoImg'/>
-          <span style={{ fontSize: '1.25rem', fontWeight: 800, color: '#fff', letterSpacing: '-0.5px' }}>MyLifeCoaching</span>
+          <span style={{ fontSize: '1.25rem', fontWeight: 800, color: '#fff', letterSpacing: '-0.5px' }}>MeLifeCoaching</span>
         </div>
 
         <div className="nav-links desktop-only">
